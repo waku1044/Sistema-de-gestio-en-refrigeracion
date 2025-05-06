@@ -1,11 +1,14 @@
 import { useState } from "react";
 
 const ReparacionesTaller = () => {
+  
   const [form, setForm] = useState({
     cliente: "",
     tipo: "",
+    domicilio:'',
     marca: "",
     falla: "",
+    fecha:''
   });
 
   const [reparaciones, setReparaciones] = useState([]);
@@ -25,7 +28,7 @@ const ReparacionesTaller = () => {
       id: Date.now(),
     };
     setReparaciones([...reparaciones, nueva]);
-    setForm({ cliente: "", tipo: "", marca: "", falla: "" });
+    setForm({ cliente: "", tipo: "", marca: "", falla: "",domicilio:'',fecha:''});
   };
 
   const actualizarEstado = (id, nuevoEstado) => {
@@ -94,18 +97,29 @@ const ReparacionesTaller = () => {
         </h1>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {["cliente", "tipo", "marca", "falla"].map((f) => (
+          {["cliente",'domicilio', "tipo", "marca", "falla",'fecha'].map((f) => (
+            (f === 'fecha')?
             <input
               key={f}
               name={f}
+              type="date"
               placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
               value={form[f]}
               onChange={handleChange}
               className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
-            />
+            />:
+            <input
+            key={f}
+            name={f}
+            placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
+            value={form[f]}
+            onChange={handleChange}
+            className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
           ))}
-          <button
+          <button 
             type="submit"
             className="col-span-1 sm:col-span-2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl"
           >
@@ -123,9 +137,11 @@ const ReparacionesTaller = () => {
               className="p-4 rounded-lg border border-gray-200 bg-gray-50 shadow-sm"
             >
               <p><strong>Cliente:</strong> {rep.cliente}</p>
+              <p><strong>Domicilio:</strong> {rep.domicilio}</p>
               <p><strong>Tipo:</strong> {rep.tipo}</p>
               <p><strong>Marca:</strong> {rep.marca}</p>
               <p><strong>Falla:</strong> {rep.falla}</p>
+              <p><strong>Fecha:</strong> {rep.fecha}</p>
               <p className="mb-2">
                 <strong>Estado:</strong>{" "}
                 <span className={`font-semibold ${rep.estado === "Pendiente"
