@@ -78,7 +78,7 @@ const ReparacionesTaller = () => {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 sm:grid-cols-2 gap-4"
         >
-          {["cliente", "domicilio", "tipo", "marca", "falla", "fecha"].map(
+          {["cliente", "domicilio",'telefono', "tipo", "marca", "falla", "fecha"].map(
             (f) =>
               f === "fecha" ? (
                 <input
@@ -112,15 +112,15 @@ const ReparacionesTaller = () => {
         </form>
 
         <div className="space-y-4">
-          <div className="flex items-center justify-around">
-            <h2 className="text-xl font-semibold text-gray-800">
+          <div className="flex items-center justify-around flex-wrap">
+            <h2 className="text-xl font-semibold text-gray-800 me-5 mb-3">
               Equipos registrados
             </h2>
-            <div className="flex gap-3">
-              <button type="button" className= ' bg-red-400 py-2 px-5 text-amber-50 rounded-2xl'>Pendientes</button>
-              <button type="button"  className= 'bg-amber-500 py-2 px-5 text-amber-50 rounded-2xl'>En reparacion</button>
-              <button type="button" className= 'bg-blue-400 py-2 px-5 text-amber-50 rounded-2xl'>Reparado</button>
-              <button type="button" className= 'bg-green-600 py-2 px-5 text-amber-50 rounded-2xl'>Entregados</button>
+            <div className="flex gap-2 flex-wrap">
+              <button type="button" className= 'bg-red-400 py-2 px-5 text-amber-50 rounded-2xl '>Pendientes</button>
+              <button type="button"  className= 'bg-amber-500 py-2 px-5 text-amber-50 rounded-2xl '>En reparacion</button>
+              <button type="button" className= 'bg-blue-400 py-2 px-5 text-amber-50 rounded-2xl '>Reparado</button>
+              <button type="button" className= 'bg-green-600 py-2 px-5 text-amber-50 rounded-2xl '>Entregados</button>
             </div>
           </div>
           

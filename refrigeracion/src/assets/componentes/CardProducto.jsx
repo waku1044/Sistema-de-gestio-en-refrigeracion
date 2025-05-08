@@ -153,7 +153,7 @@ const CardProducto = (props) => {
             </div>
           ))
       ) : (
-        <p>No hay productos disponibles</p>
+        <p>No hay Equipos registrados.</p>
       )}
     </div>
   );
