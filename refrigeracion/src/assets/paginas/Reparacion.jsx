@@ -1,24 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import CardProducto from "../componentes/CardProducto";
 
 const ReparacionesTaller = () => {
-  
   const [form, setForm] = useState({
     cliente: "",
     tipo: "",
-    domicilio:'',
+    domicilio: "",
     marca: "",
     falla: "",
-    fecha:''
+    fecha: "",
   });
 
   const [reparaciones, setReparaciones] = useState([]);
   const btnClass = "px-4 py-2 text-white rounded-xl transition";
 
-
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    fetch("http://localhost:3000/reparacion")
+      .then((res) => res.json())
+      .then((data) => setReparaciones(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,66 +33,39 @@ const ReparacionesTaller = () => {
       id: Date.now(),
     };
     setReparaciones([...reparaciones, nueva]);
-    setForm({ cliente: "", tipo: "", marca: "", falla: "",domicilio:'',fecha:''});
+    console.log("Reparaciones: " + reparaciones);
+    setForm({
+      cliente: "",
+      tipo: "",
+      marca: "",
+      falla: "",
+      domicilio: "",
+      fecha: "",
+    });
+
+    // nueva se enviaria a la base de datos
+    fetch("http://localhost:3000/reparacion", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(nueva),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error al enviar los datos");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        
+        console.log("Datos enviados con éxito:", data);
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
   };
 
-  const actualizarEstado = (id, nuevoEstado) => {
-    setReparaciones((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, estado: nuevoEstado } : item
-      )
-    );
-  };
-
-  const getAcciones = (estado, id) => {
-    switch (estado) {
-      case "Pendiente":
-        return (
-          <button
-            onClick={() => actualizarEstado(id, "En reparación")}
-            className={`${btnClass} bg-amber-500`}
-
-          >
-            Marcar como En reparación
-          </button>
-        );
-      case "En reparación":
-        return (
-          <div className="flex gap-2 flex-wrap">
-            <button
-              onClick={() => actualizarEstado(id, "Reparado")}
-              className={`${btnClass} bg-blue-400`}
-
-            >
-              Reparado
-            </button>
-            <button
-              onClick={() => alert("Continuar reparación...")}
-              
-              className={`${btnClass} bg-red-400`}
-
-
-            >
-              Aún no reparado
-            </button>
-          </div>
-        );
-      case "Reparado":
-        return (
-          <button
-            onClick={() => actualizarEstado(id, "Entregado")}
-            className={`${btnClass} bg-green-600`}
-
-          >
-            Marcar como Entregado
-          </button>
-        );
-      case "Entregado":
-        return <span className="text-green-700 font-bold">Entregado al cliente ✅</span>;
-      default:
-        return null;
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-300 p-6">
@@ -96,30 +74,36 @@ const ReparacionesTaller = () => {
           Reparación en Taller / Domicilio
         </h1>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {["cliente",'domicilio', "tipo", "marca", "falla",'fecha'].map((f) => (
-            (f === 'fecha')?
-            <input
-              key={f}
-              name={f}
-              type="date"
-              placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
-              value={form[f]}
-              onChange={handleChange}
-              className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />:
-            <input
-            key={f}
-            name={f}
-            placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
-            value={form[f]}
-            onChange={handleChange}
-            className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          ))}
-          <button 
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        >
+          {["cliente", "domicilio", "tipo", "marca", "falla", "fecha"].map(
+            (f) =>
+              f === "fecha" ? (
+                <input
+                  key={f}
+                  name={f}
+                  type="date"
+                  placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
+                  value={form[f]}
+                  onChange={handleChange}
+                  className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              ) : (
+                <input
+                  key={f}
+                  name={f}
+                  placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
+                  value={form[f]}
+                  onChange={handleChange}
+                  className="px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              )
+          )}
+          <button
             type="submit"
             className="col-span-1 sm:col-span-2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl"
           >
@@ -128,37 +112,20 @@ const ReparacionesTaller = () => {
         </form>
 
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Equipos registrados
-          </h2>
-          {reparaciones.map((rep) => (
-            <div
-              key={rep.id}
-              className="p-4 rounded-lg border border-gray-200 bg-gray-50 shadow-sm"
-            >
-              <p><strong>Cliente:</strong> {rep.cliente}</p>
-              <p><strong>Domicilio:</strong> {rep.domicilio}</p>
-              <p><strong>Tipo:</strong> {rep.tipo}</p>
-              <p><strong>Marca:</strong> {rep.marca}</p>
-              <p><strong>Falla:</strong> {rep.falla}</p>
-              <p><strong>Fecha:</strong> {rep.fecha}</p>
-              <p className="mb-2">
-                <strong>Estado:</strong>{" "}
-                <span className={`font-semibold ${rep.estado === "Pendiente"
-                  ? "text-yellow-600"
-                  : rep.estado === "En reparación"
-                  ? "text-blue-600"
-                  : rep.estado === "Reparado"
-                  ? "text-green-600"
-                  : "text-purple-600"}`}>
-                  {rep.estado}
-                </span>
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                {getAcciones(rep.estado, rep.id)}
-              </div>
+          <div className="flex items-center justify-around">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Equipos registrados
+            </h2>
+            <div className="flex gap-3">
+              <button type="button" className= ' bg-red-400 py-2 px-5 text-amber-50 rounded-2xl'>Pendientes</button>
+              <button type="button"  className= 'bg-amber-500 py-2 px-5 text-amber-50 rounded-2xl'>En reparacion</button>
+              <button type="button" className= 'bg-blue-400 py-2 px-5 text-amber-50 rounded-2xl'>Reparado</button>
+              <button type="button" className= 'bg-green-600 py-2 px-5 text-amber-50 rounded-2xl'>Entregados</button>
             </div>
-          ))}
+          </div>
+          
+          <CardProducto tipo='reparacion' />
+         
         </div>
       </div>
     </div>
