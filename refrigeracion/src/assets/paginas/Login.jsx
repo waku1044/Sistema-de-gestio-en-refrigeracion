@@ -1,6 +1,7 @@
 import { useState } from "react";
 import NavBar from "../componentes/NavBar";
 import { useNavigate } from "react-router-dom"; // ← importar
+import '../css/login.css'
 
 const Login = () => {
   const [usuario, setUsuario] = useState("");
@@ -24,7 +25,7 @@ const Login = () => {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="pantalla flex items-center justify-center bg-gray-100">
         <form
           onSubmit={handleLogin}
           className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md"
