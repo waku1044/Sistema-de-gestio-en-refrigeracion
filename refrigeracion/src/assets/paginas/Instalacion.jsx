@@ -1,30 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardProducto from "../componentes/CardProducto";
-import Form from '../componentes/Form';
+import Form from "../componentes/Form";
 
 const Instalacion = () => {
-  
+  const [instalaciones, setinstalaciones] = useState([]);
 
-  const [equipos, setEquipos] = useState([]);
+  const fetchinstalaciones = () => {
+    fetch("http://localhost:3000/instalacion")
+      .then((res) => res.json())
+      .then((data) => setinstalaciones(data));
+  };
 
-  
+  useEffect(() => {
+    fetchinstalaciones();
+  }, []);
+
+  const onActualizarEstado = (id, nuevoEstado) => {
+    const repOriginal = instalaciones.find((r) => r.id === id); // ✅ obtenemos el objeto completo
+
+    if (!repOriginal) return console.error("Reparación no encontrada");
+
+    const actualizado = { ...repOriginal, estado: nuevoEstado };
+
+    fetch(`http://localhost:3000/instalacion/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(actualizado), // ✅ enviamos el objeto completo
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al actualizar");
+        return res.json();
+      })
+      .then(() => {
+        console.log("Estado actualizado");
+        fetchinstalaciones(); // ✅ recargamos la lista
+      })
+      .catch((err) => console.error("Error actualizando estado:", err));
+  };
 
   return (
     <div className="min-h-screen bg-gray-300 p-6">
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow space-y-6">
-        <h1 className="text-center text-blue-700 font-bold  text-3xl">
-          Instalación de Aire Acondicionado
-        </h1>
-        
-        <Form tipo='instalacion' />
-       
-        <div className="space-y-4">
-          <div className="flex items-center justify-around flex-wrap">
-            <h2 className="text-xl font-semibold text-gray-800 me-5 mb-3">
-              Equipos registrados
-            </h2>
-          </div>
-          <CardProducto tipo="instalacion" />
+      <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
+        <Form tipo="instalacion" onAdd={fetchinstalaciones} className="mt-5" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          {instalaciones.map((rep) => (
+            <CardProducto
+              key={rep.id}
+              rep={rep}
+              onActualizarEstado={onActualizarEstado}
+            />
+          ))}
         </div>
       </div>
     </div>

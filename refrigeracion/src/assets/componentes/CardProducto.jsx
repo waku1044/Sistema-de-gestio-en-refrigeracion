@@ -56,6 +56,9 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
         <strong>Domicilio:</strong> {rep.domicilio}
       </p>
       <p>
+        <strong>Telefono:</strong> {rep.telefono}
+      </p>
+      <p>
         <strong>Tipo:</strong> {rep.tipo}
       </p>
       <p>
