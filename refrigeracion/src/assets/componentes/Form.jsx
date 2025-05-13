@@ -71,7 +71,7 @@ const Form = ({ tipo, onAdd, className }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-4xl mx-auto bg-blue-100 p-8 rounded-xl shadow space-y-6"
+      className="max-w-4xl mx-auto  bg-cyan-100 p-8 rounded-xl shadow space-y-6"
     >
       <h2 className="text-xl font-bold mb-4 text-center">Nuevo equipo ({tipo})</h2>
 
@@ -161,7 +161,7 @@ const Form = ({ tipo, onAdd, className }) => {
           placeholder="Descripción"
           value={formData.descripcion}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200 "
           rows={3}
         />
         <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">

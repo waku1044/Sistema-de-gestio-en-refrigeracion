@@ -40,7 +40,7 @@ const ListaReparaciones = () => {
 
   return (
     <div className="min-h-screen bg-gray-300 p-6">
-      <div className="max-w-4xl mx-auto bg-blue-400 p-8 rounded-xl shadow space-y-6">
+      <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
         <Form tipo="reparacion" onAdd={fetchReparaciones} className="mt-5" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {reparaciones.map((rep) => (

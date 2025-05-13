@@ -40,9 +40,7 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
         );
 
       case "Entregado":
-        return (
-          null
-        );
+        return null;
 
       default:
         return null;
@@ -50,31 +48,47 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
   };
 
   return (
-    <div className="p-4 rounded-lg border border-gray-200 bg-gray-50 shadow-sm">
-      <p><strong>Cliente:</strong> {rep.cliente}</p>
-      <p><strong>Domicilio:</strong> {rep.domicilio}</p>
-      <p><strong>Tipo:</strong> {rep.tipo}</p>
-      <p><strong>Marca:</strong> {rep.marca}</p>
-      <p><strong>Falla:</strong> {rep.falla}</p>
-      <p><strong>Fecha:</strong> {rep.fecha}</p>
-      <p><strong>Descripcion:</strong> {rep.descripcion}</p>
+    <div className="p-4 rounded-lg border border-gray-200 bg-gray-50 shadow-sm ">
+      <p>
+        <strong>Cliente:</strong> {rep.cliente}
+      </p>
+      <p>
+        <strong>Domicilio:</strong> {rep.domicilio}
+      </p>
+      <p>
+        <strong>Tipo:</strong> {rep.tipo}
+      </p>
+      <p>
+        <strong>Marca:</strong> {rep.marca}
+      </p>
+      <p>
+        <strong>Falla:</strong> {rep.falla}
+      </p>
+      <p>
+        <strong>Fecha:</strong> {rep.fecha}
+      </p>
+
+      <p className="overflow-auto">
+        <strong>Descripcion:</strong> {rep.descripcion}
+      </p>
+
       <p className="mb-2">
         <strong>Estado:</strong>{" "}
-        <span className={`font-semibold ${
-          rep.estado === "Pendiente"
-            ? "text-red-400"
-            : rep.estado === "En reparación"
-            ? "text-blue-600"
-            : rep.estado === "Reparado"
-            ? "text-green-600"
-            : "text-purple-600"
-        }`}>
+        <span
+          className={`font-semibold ${
+            rep.estado === "Pendiente"
+              ? "text-red-400"
+              : rep.estado === "En reparación"
+              ? "text-blue-600"
+              : rep.estado === "Reparado"
+              ? "text-green-600"
+              : "text-purple-600"
+          }`}
+        >
           {rep.estado}
         </span>
       </p>
-      <div className="flex gap-3 flex-wrap">
-        {combinacionDeBotones()}
-      </div>
+      <div className="flex gap-3 flex-wrap">{combinacionDeBotones()}</div>
     </div>
   );
 };
