@@ -4,12 +4,12 @@ import Form from "../componentes/Form";
 import NavBar from '../componentes/NavBar';
 
 const Instalacion = () => {
-  const [instalaciones, setinstalaciones] = useState([]);
+  const [instalaciones, setInstalaciones] = useState([]);
 
   const fetchinstalaciones = () => {
     fetch("http://localhost:3000/instalacion")
       .then((res) => res.json())
-      .then((data) => setinstalaciones(data));
+      .then((data) => setInstalaciones(data));
   };
 
   useEffect(() => {

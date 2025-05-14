@@ -57,7 +57,7 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
   };
 
   return (
-    <div className="p-4 rounded-lg border border-gray-200 bg-gray-50 shadow-sm ">
+    <div className="p-4 rounded-lg border border-gray-200 bg-gray-300 shadow-sm ">
       <p>
         <strong>Cliente:</strong> {rep.cliente}
       </p>
