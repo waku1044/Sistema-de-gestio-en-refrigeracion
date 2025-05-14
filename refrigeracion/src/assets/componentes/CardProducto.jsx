@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+
+
 const CardProducto = ({ rep, onActualizarEstado }) => {
   const combinacionDeBotones = () => {
     switch (rep.estado) {
@@ -40,7 +43,13 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
         );
 
       case "Entregado":
-        return null;
+        return (<Link
+        className="bg-green-600 py-2 px-5 text-amber-50 rounded-2xl"
+        to={`/info/${rep.id}`}
+      >
+        Info
+      </Link>
+    );
 
       default:
         return null;

@@ -74,7 +74,7 @@ const Form = ({ tipo, onAdd }) => {
       onSubmit={handleSubmit}
       className="max-w-4xl mx-auto  bg-cyan-100 p-8 rounded-xl shadow space-y-6"
     >
-      <h2 className="text-xl font-bold mb-4 text-center">Nuevo equipo para ({tipo})</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">Nuevo equipo para  ({tipo})</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="relative my-3">

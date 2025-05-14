@@ -4,7 +4,7 @@ import '../css/login.css'
 const Principal = () => {
   return (
     <>
-      <NavBar activo={true} />
+      <NavBar />
 
       <div className="pantalla bg-cyan-100 flex flex-col items-center justify-start pt-10">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">

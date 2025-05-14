@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import CardProducto from "../componentes/CardProducto";
 import Form from "../componentes/Form";
+import NavBar from "../componentes/NavBar";
 
 const ListaReparaciones = () => {
   const [reparaciones, setReparaciones] = useState([]);
@@ -39,20 +40,23 @@ const ListaReparaciones = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-300 p-6">
-      <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
-        <Form tipo="reparacion" onAdd={fetchReparaciones} className="mt-5" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          {reparaciones.map((rep) => (
-            <CardProducto
-              key={rep.id}
-              rep={rep}
-              onActualizarEstado={onActualizarEstado}
-            />
-          ))}
+    <>
+      <NavBar activo={true} tipo='reparacion' />
+      <div className="min-h-screen bg-gray-300 p-6">
+        <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
+          <Form tipo="reparacion" onAdd={fetchReparaciones} className="mt-5" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            {reparaciones.map((rep) => (
+              <CardProducto
+                key={rep.id}
+                rep={rep}
+                onActualizarEstado={onActualizarEstado}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
