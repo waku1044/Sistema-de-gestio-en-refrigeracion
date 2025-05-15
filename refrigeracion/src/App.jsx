@@ -5,6 +5,7 @@ import Principal from './assets/paginas/Principal';
 import Reparacion from './assets/paginas/Reparacion';
 import Instalacion from './assets/paginas/Instalacion';
 import Info from './assets/paginas/Info';
+import Buscador from './assets/paginas/Buscador';
 import './App.css'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/reparacion" element={<Reparacion />} />
         <Route path="/instalacion" element={<Instalacion />} />
         <Route path="/info/:id" element={<Info />} />
+        <Route path="/buscador" element={<Buscador />} />
         
 
       </Routes>

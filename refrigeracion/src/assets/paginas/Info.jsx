@@ -57,7 +57,7 @@ const Info = () => {
 
   return (
     <>
-    <NavBar activo={true} tipo='instalacion'/>
+    <NavBar activo={true} tipo='info'/>
       <div className="flex items-center justify-center min-h-screen bg-gray-200">
         <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 max-w-3xl">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">

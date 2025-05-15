@@ -44,7 +44,7 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
 
       case "Entregado":
         return (<Link
-        className="bg-green-600 py-2 px-5 text-amber-50 rounded-2xl"
+        className="bg-emerald-500 py-2 px-5 font-bold text-amber-50 rounded-2xl"
         to={`/info/${rep.id}`}
       >
         Info

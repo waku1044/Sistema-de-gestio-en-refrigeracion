@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import CardProducto from "../componentes/CardProducto";
 import Form from "../componentes/Form";
-import NavBar from '../componentes/NavBar';
+import NavBar from "../componentes/NavBar";
 
 const Instalacion = () => {
   const [instalaciones, setInstalaciones] = useState([]);
@@ -41,7 +41,7 @@ const Instalacion = () => {
 
   return (
     <>
-    <NavBar activo={true} tipo='instalacion' />
+      <NavBar activo={true} tipo="instalacion" />
       <div className="min-h-screen bg-gray-300 p-6">
         <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
           <Form
@@ -49,14 +49,22 @@ const Instalacion = () => {
             onAdd={fetchinstalaciones}
             className="mt-5"
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            {instalaciones.map((rep) => (
-              <CardProducto
-                key={rep.id}
-                rep={rep}
-                onActualizarEstado={onActualizarEstado}
-              />
-            ))}
+          <div className={instalaciones.length > 0 ? "grid grid-cols-1 md:grid-cols-2 gap-6 mt-8": ''}>
+            {instalaciones.length > 0 ? (
+              instalaciones.map((rep) => (
+                <CardProducto
+                  key={rep.id}
+                  rep={rep}
+                  onActualizarEstado={onActualizarEstado}
+                />
+              ))
+            ) : (
+              <div>
+                <p className="mx-auto text-center font-bold text-yellow-400 text-xl ">
+                  No Hay Equipos Registrados..
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
