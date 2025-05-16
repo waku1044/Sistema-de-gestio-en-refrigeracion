@@ -46,13 +46,21 @@ const ListaReparaciones = () => {
         <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
           <Form tipo="reparacion" onAdd={fetchReparaciones} className="mt-5" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            {reparaciones.map((rep) => (
-              <CardProducto
-                key={rep.id}
-                rep={rep}
-                onActualizarEstado={onActualizarEstado}
-              />
-            ))}
+          {reparaciones.length > 0 ? (
+              reparaciones.map((rep) => (
+                <CardProducto
+                  key={rep.id}
+                  rep={rep}
+                  onActualizarEstado={onActualizarEstado}
+                />
+              ))
+            ) : (
+              <div>
+                <p className="mx-auto text-center font-bold text-yellow-400 text-xl ">
+                  No Hay Equipos Registrados..
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
