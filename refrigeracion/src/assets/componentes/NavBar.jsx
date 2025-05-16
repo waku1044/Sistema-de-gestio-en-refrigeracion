@@ -19,7 +19,7 @@ function NavBar(props) {
       </div>
       <div>
         {ingreso ? (
-          <ul className={ingreso ? "flex gap-5" : ""}>
+          <ul className={ingreso ? "flex gap-3" : ""}>
             <li>
               <Link
                 className="text-blue-300 font-bold hover:text-emerald-300"
