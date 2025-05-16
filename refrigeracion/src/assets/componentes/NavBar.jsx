@@ -30,19 +30,36 @@ function NavBar(props) {
             </li>
             <li>
               {tipo === "reparacion" ? (
-                <Link
-                  className="text-blue-300 font-bold hover:text-emerald-300"
-                  to="/instalacion"
-                >
-                  Instalacion
-                </Link>
+                <div className="flex gap-3">
+                  <Link
+                    className="text-blue-300 font-bold hover:text-emerald-300"
+                    to="/instalacion"
+                  >
+                    Instalacion
+                  </Link>
+
+                  <Link
+                    className="text-blue-300 font-bold hover:text-emerald-300"
+                    to="/buscador"
+                  >
+                    Buscador
+                  </Link>
+                </div>
               ) : tipo === "instalacion" ? (
-                <Link
-                  className="text-blue-300 font-bold hover:text-emerald-300"
-                  to="/reparacion"
-                >
-                  Reparacion
-                </Link>
+                <div className="flex gap-3">
+                  <Link
+                    className="text-blue-300 font-bold hover:text-emerald-300"
+                    to="/reparacion"
+                  >
+                    Reparacion
+                  </Link>
+                  <Link
+                    className="text-blue-300 font-bold hover:text-emerald-300"
+                    to="/buscador"
+                  >
+                    Buscador
+                  </Link>
+                </div>
               ) : tipo === "info" ? (
                 <Link
                   className="text-blue-300 font-bold hover:text-emerald-300"
@@ -57,7 +74,9 @@ function NavBar(props) {
                 >
                   Buscador
                 </Link>
-              ) : ''}
+              ) : (
+                ""
+              )}
             </li>
           </ul>
         ) : (
