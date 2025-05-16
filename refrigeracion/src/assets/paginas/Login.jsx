@@ -15,7 +15,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (usuario === "walter" && clave === "wakute1044") {
+    if (usuario === "walter" && clave === "12345") {
       alert("Bienvenido, Walter 👋");
       // Aquí podrías redirigir o guardar sesión
       navigate("/principal"); // ← redirige a /principal
@@ -30,7 +30,7 @@ const Login = () => {
       <div className="pantalla flex items-center justify-center bg-gray-100 min-h-screen">
   <form
     onSubmit={handleLogin}
-    className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md"
+    className="bg-white p-8 rounded-xl shadow-emerald-300 shadow-lg w-full max-w-md"
   >
     <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
 

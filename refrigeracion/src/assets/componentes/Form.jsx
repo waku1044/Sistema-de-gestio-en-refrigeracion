@@ -5,6 +5,7 @@ const Form = ({ tipo, onAdd }) => {
     cliente: "",
     domicilio: "",
     tipo: "",
+    telefono:'',
     marca: "",
     falla: "",
     fecha: "",
@@ -85,7 +86,7 @@ const Form = ({ tipo, onAdd }) => {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-0 ">
+          <span className="text-red-500  text-sm absolute bottom-[-18px] left-5 ">
             {errorData.cliente && errorData.cliente}
           </span>
         </div>
@@ -105,6 +106,7 @@ const Form = ({ tipo, onAdd }) => {
 
         <div className="relative my-3">
           <input
+            type="number"
             name="telefono"
             placeholder="Telefono"
             value={formData.telefono}
@@ -186,7 +188,7 @@ const Form = ({ tipo, onAdd }) => {
       <div className="text-center">
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white mt-5 py-2 px-6 rounded hover:bg-blue-700 transition"
         >
           Agregar equipo
         </button>
