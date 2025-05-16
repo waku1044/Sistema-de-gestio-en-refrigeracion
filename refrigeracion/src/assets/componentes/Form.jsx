@@ -99,7 +99,7 @@ const Form = ({ tipo, onAdd }) => {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">
+          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.domicilio && errorData.domicilio}
           </span>
         </div>
@@ -113,7 +113,7 @@ const Form = ({ tipo, onAdd }) => {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">
+          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.telefono && errorData.telefono}
           </span>
         </div>
@@ -126,7 +126,7 @@ const Form = ({ tipo, onAdd }) => {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">
+          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.tipo && errorData.tipo}
           </span>
         </div>
@@ -139,7 +139,7 @@ const Form = ({ tipo, onAdd }) => {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">
+          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.marca && errorData.marca}
           </span>
         </div>
@@ -152,7 +152,7 @@ const Form = ({ tipo, onAdd }) => {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">
+          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.falla && errorData.falla}
           </span>
         </div>
@@ -165,7 +165,7 @@ const Form = ({ tipo, onAdd }) => {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">
+          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.fecha && errorData.fecha}
           </span>
         </div>
@@ -180,7 +180,7 @@ const Form = ({ tipo, onAdd }) => {
           className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200 "
           rows={3}
         />
-        <span className="text-red-500 text-sm absolute bottom-[-18px] left-0">
+        <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
           {errorData.descripcion && errorData.descripcion}
         </span>
       </div>
