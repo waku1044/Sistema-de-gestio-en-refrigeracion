@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const Form = ({ tipo, onAdd }) => {
   const [formData, setFormData] = useState({
     cliente: "",
@@ -65,6 +65,7 @@ const Form = ({ tipo, onAdd }) => {
           descripcion: "",
           estado: "Pendiente",
         });
+        Notify.success('Se agrego equipo con Exito');
         setErrorData({}); // Limpiar los errores después del envío
       })
       .catch((err) => console.error("Error al enviar:", err));

@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
+import useState from 'react';
 
 
 const CardProducto = ({ rep, onActualizarEstado }) => {
+
+  
+  
   const combinacionDeBotones = () => {
     switch (rep.estado) {
       case "Pendiente":
@@ -16,20 +20,15 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
 
       case "En reparación":
         return (
-          <div className="flex gap-3">
+          
             <button
               className="bg-blue-600 py-2 px-5 text-amber-50 rounded-2xl"
               onClick={() => onActualizarEstado(rep.id, "Reparado")}
             >
               Reparado
             </button>
-            <button
-              className="bg-red-400 py-2 px-5 text-amber-50 rounded-2xl"
-              onClick={() => onActualizarEstado(rep.id, "En reparación")}
-            >
-              Sigue reparación
-            </button>
-          </div>
+            
+          
         );
 
       case "Reparado":
@@ -77,14 +76,14 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
         <strong>Falla:</strong> {rep.falla}
       </p>
       <p>
-        <strong>Fecha:</strong> {rep.fecha}
+        <strong className='text-amber-700'>Fecha de Ingreso:</strong> {rep.fecha}
       </p>
 
       <p className="overflow-auto">
         <strong>Descripcion:</strong> {rep.descripcion}
       </p>
 
-      <p className="mb-2">
+      <p >
         <strong>Estado:</strong>{" "}
         <span
           className={`font-semibold ${
@@ -99,6 +98,9 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
         >
           {rep.estado}
         </span>
+      </p>
+      <p className="mb-2">
+        <strong className='text-green-700'>Fecha de Entrega:</strong> {rep.fechaEntrega}
       </p>
       <div className="flex gap-3 flex-wrap">{combinacionDeBotones()}</div>
     </div>

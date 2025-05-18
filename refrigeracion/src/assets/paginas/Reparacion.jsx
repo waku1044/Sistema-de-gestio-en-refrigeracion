@@ -21,7 +21,30 @@ const ListaReparaciones = () => {
 
     if (!repOriginal) return console.error("Reparación no encontrada");
 
-    const actualizado = { ...repOriginal, estado: nuevoEstado };
+    let actualizado = {};
+
+    if (nuevoEstado === "Entregado") {
+      const fecha = new Date();
+
+      const año = fecha.getFullYear();
+      const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Suma 1 porque enero es 0
+      const dia = String(fecha.getDate()).padStart(2, "0");
+
+      const fechaFormateada = `${año}-${mes}-${dia}`;
+
+      
+
+      actualizado = {
+        ...repOriginal,
+        estado: nuevoEstado,
+        fechaEntrega: fechaFormateada
+      };
+    } else {
+      actualizado = {
+        ...repOriginal,
+        estado: nuevoEstado,
+      };
+    }
 
     fetch(`http://localhost:3000/reparacion/${id}`, {
       method: "PUT",
@@ -41,12 +64,18 @@ const ListaReparaciones = () => {
 
   return (
     <>
-      <NavBar activo={true} tipo='reparacion' />
+      <NavBar activo={true} tipo="reparacion" />
       <div className="min-h-screen bg-gray-300 p-6">
         <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
           <Form tipo="reparacion" onAdd={fetchReparaciones} className="mt-5" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          {reparaciones.length > 0 ? (
+          <div
+            className={
+              reparaciones.length > 0
+                ? "grid grid-cols-1 md:grid-cols-2 gap-6 mt-8"
+                : ""
+            }
+          >
+            {reparaciones.length > 0 ? (
               reparaciones.map((rep) => (
                 <CardProducto
                   key={rep.id}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CardProducto from "../componentes/CardProducto";
+import CardProductoInfo from "../componentes/CardProductoInfo";
 import NavBar from '../componentes/NavBar';
 
 const Info = () => {
@@ -70,7 +70,7 @@ const Info = () => {
 
           {/* Si el equipo se encuentra, renderizamos la tarjeta con los detalles */}
           {equipo && Object.keys(equipo).length > 0 ? (
-            <CardProducto rep={equipo} />
+            <CardProductoInfo rep={equipo} />
           ) : (
             <p className="text-gray-500">Cargando los detalles...</p>
           )}

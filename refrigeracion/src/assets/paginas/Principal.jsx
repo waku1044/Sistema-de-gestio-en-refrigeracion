@@ -1,7 +1,11 @@
 import NavBar from "../componentes/NavBar";
 import { Link } from 'react-router-dom';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import '../css/login.css'
+
+
 const Principal = () => {
+  Loading.remove();
   return (
     <>
       <NavBar activo={true} tipo="buscador" />
