@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import NavBar from "../componentes/NavBar";
+import { useNavigate } from "react-router-dom";
 
 const Editar = () => {
   const [equipo, setEquipo] = useState({});
   const [errorData, setErrorData] = useState({});
   const { id } = useParams();
   const [tipo, setTipo] = useState();
-
+  const navegate = useNavigate();
   useEffect(() => {
     if (id) {
       // Intentamos obtener los datos de "reparacion"
@@ -112,6 +113,7 @@ const Editar = () => {
       })
       .then((data) => {
         Notify.success("Equipo actualizado correctamente");
+        navegate(`/${tipo}`)
         console.log("Respuesta del servidor:", data);
       })
       .catch((error) => {

@@ -101,7 +101,7 @@ const CardProductoInfo = ({ rep }) => {
         </span>
       </p>
       <p className="mb-2">
-        <strong className="text-green-700">Fecha de Entrego:</strong>{" "}
+        <strong className="text-green-700">Fecha de Entrega:</strong>{" "}
         {rep.fechaEntrega}
       </p>
       <div>{LaBotonera()}</div>

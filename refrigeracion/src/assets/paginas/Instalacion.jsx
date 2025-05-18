@@ -21,7 +21,30 @@ const Instalacion = () => {
 
     if (!repOriginal) return console.error("Reparación no encontrada");
 
-    const actualizado = { ...repOriginal, estado: nuevoEstado };
+    let actualizado = {};
+
+    if (nuevoEstado === "Entregado") {
+      const fecha = new Date();
+
+      const año = fecha.getFullYear();
+      const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Suma 1 porque enero es 0
+      const dia = String(fecha.getDate()).padStart(2, "0");
+
+      const fechaFormateada = `${año}-${mes}-${dia}`;
+
+      
+
+      actualizado = {
+        ...repOriginal,
+        estado: nuevoEstado,
+        fechaEntrega: fechaFormateada
+      };
+    } else {
+      actualizado = {
+        ...repOriginal,
+        estado: nuevoEstado,
+      };
+    }
 
     fetch(`http://localhost:3000/instalacion/${id}`, {
       method: "PUT",
