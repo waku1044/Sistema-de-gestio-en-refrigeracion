@@ -22,6 +22,7 @@ function App() {
         <Route path="/instalacion" element={<Instalacion />} />
         <Route path="/info/:id" element={<Info />} />
         <Route path="/buscador" element={<Buscador />} />
+        <Route path="/buscador/:telefono" element={<Buscador />} />
         <Route path="/editar/:id" element={<Editar />} />
         
 

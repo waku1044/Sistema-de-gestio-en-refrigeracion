@@ -1,90 +1,163 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NavBar from "../componentes/NavBar";
 
 const Buscador = () => {
-  const [input, setInput] = useState();
-  const [buscarPor, setBuscarPor] = useState(true);
+  const [datoInput, setDatoInput] = useState("");
+  const [buscarPor, setBuscarPor] = useState(true); // true = Domicilio, false = Teléfono
+  const [buscado, setBuscado] = useState(null);
+  const [mensaje, setMensaje] = useState(""); // para mostrar errores o estado
 
-  useEffect(() => {
-    if (input) {
-      // Intentamos obtener los datos de "reparacion"
-      fetch(`http://localhost:3000/reparacion/${input}`)
+  const manejarBusqueda = () => {
+    if (!datoInput.trim()) {
+      setMensaje("Por favor ingresa un dato para buscar.");
+      setBuscado(null);
+      return;
+    }
+
+    setMensaje("Buscando...");
+    setBuscado(null);
+
+    if (buscarPor) {
+      // Buscar por Domicilio
+      // Buscar primero en reparación
+      fetch(`http://localhost:3000/reparacion/`)
         .then((res) => {
-          if (!res.ok) {
-            // Si no conseguimos los datos de "reparacion", lanzamos un error
-            throw new Error("No encontrado en reparacion");
-          }
-          return res.json(); // Convertimos la respuesta en JSON si la solicitud es exitosa
+          if (!res.ok) throw new Error("No encontrado en reparación");
+          return res.json();
         })
-        .then((data) => setEquipo(data)) // Si la petición es exitosa, actualizamos el estado
-        .catch((err) => {
-          console.log(err.message); // Logueamos el error
+        .then((data) => {
+          let resultado = data.filter((item) => item.domicilio === datoInput);
 
-          // Si hubo un error en la búsqueda de "reparacion", intentamos con "instalacion"
-          if (err.message === "No encontrado en reparacion") {
-            fetch(`http://localhost:3000/instalacion/${input}`)
-              .then((res) => {
-                if (!res.ok) {
-                  throw new Error("No encontrado en instalacion");
-                }
-                return res.json();
-              })
-              .then((data) => setEquipo(data)) // Si la segunda petición es exitosa, actualizamos el estado
-              .catch((err) => {
-                // Si ambas peticiones fallan, mostramos un error
-                setError("Error al cargar el equipo.");
-                console.error("Error al cargar el equipo:", err);
-              });
-          } else {
-            // Si la petición falla por algún otro motivo (como problemas de red)
-            setError("Hubo un problema al cargar la información.");
+          if (resultado.length === 0) {
+            throw new Error("No se encontraron resultados");
           }
+          setBuscado(resultado); // Guardamos el arreglo de resultados
+          setMensaje(""); // limpiar mensaje si encontró algo
+        })
+        .catch(() => {
+          // Si no está en reparación, buscar en instalación
+          fetch(`http://localhost:3000/instalacion/`)
+            .then((res) => {
+              if (!res.ok) throw new Error("No encontrado en instalación");
+              return res.json();
+            })
+            .then((data) => {
+              let resultado = data.filter(
+                (item) => item.domicilio === datoInput
+              );
+
+              if (resultado.length === 0) {
+                throw new Error("No se encontraron resultados");
+              }
+              setBuscado(resultado); // Guardamos el arreglo de resultados
+              setMensaje(""); // encontrado en instalación
+            })
+            .catch(() => {
+              setMensaje("No se encontró ningún cliente con ese dato.");
+            });
+        });
+    } else {
+      // Buscar por Teléfono
+      fetch(`http://localhost:3000/reparacion/`)
+        .then((res) => {
+          if (!res.ok) throw new Error("No encontrado en reparación");
+          return res.json();
+        })
+        .then((data) => {
+          let resultado = data.filter(
+            (item) => item.telefono.trim() === datoInput.trim()
+          );
+
+          if (resultado.length === 0) {
+            throw new Error("No se encontraron resultados");
+          }
+          setBuscado(resultado); // Guardamos el arreglo de resultados
+          setMensaje(""); // limpiar mensaje si encontró algo
+        })
+        .catch(() => {
+          // Si no está en reparación, buscar en instalación
+          fetch(`http://localhost:3000/instalacion/`)
+            .then((res) => {
+              if (!res.ok) throw new Error("No encontrado en instalación");
+              return res.json();
+            })
+            .then((data) => {
+              let resultado = data.filter(
+                (item) => item.telefono.trim() === datoInput.trim()
+              );
+
+              if (resultado.length === 0) {
+                throw new Error("No se encontraron resultados");
+              }
+              setBuscado(resultado); // Guardamos el arreglo de resultados
+              setMensaje(""); // encontrado en instalación
+            })
+            .catch(() => {
+              setMensaje("No se encontró ningún cliente con ese dato.");
+            });
         });
     }
-  }, [input]);
+  };
 
   return (
     <>
       <NavBar activo={true} tipo="info" />
 
-      <div className="flex flex-col items-center justify-center space-y-3 my-1 p-4 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-800">
-          Buscar Cliente por
-        </h2>
-
+      <div className="flex flex-col items-center justify-center space-y-3 my-4 p-4 bg-white rounded-lg shadow-lg">
         <button
-          className="font-semibold bg-blue-500 text-white rounded-full py-3 px-8 transition-all duration-300 ease-in-out transform hover:bg-blue-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="font-semibold bg-blue-500 text-white rounded-full py-2 px-6 hover:bg-blue-600"
           onClick={() => setBuscarPor(!buscarPor)}
         >
-          {buscarPor ? "Dirección" : "Teléfono"}
+          Buscar por: {buscarPor ? "Teléfono" : "Domicilio"  }
         </button>
-      </div>
 
-      <div className="relative w-full max-w-xl mx-auto mt-6">
-        <input
-          type="search"
-          placeholder={`Ingresa ${!buscarPor ? "Dirección" : "Teléfono"}`}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="w-full p-4 pl-12 text-lg border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-300"
-        />
-
-        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 18l6-6-6-6M10 18l-6-6 6-6"
-            />
-          </svg>
+        <div className="w-full max-w-xl">
+          <input
+            type="search"
+            placeholder={`Ingresa ${buscarPor ? "Domicilio" : "Teléfono"}`}
+            value={datoInput}
+            onChange={(e) => setDatoInput(e.target.value)}
+            className="w-full p-4 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
         </div>
+
+        <button
+          className="mt-2 bg-green-500 text-white py-2 px-6 rounded hover:bg-green-600"
+          onClick={manejarBusqueda}
+        >
+          Buscar
+        </button>
+
+        {mensaje && <p className="text-red-600 font-medium mt-2">{mensaje}</p>}
+
+        {buscado && Array.isArray(buscado) && buscado.length > 0 ? (
+          <div className="mt-4 p-4 bg-gray-100 rounded w-full max-w-xl">
+            <h3 className="font-bold text-lg text-gray-800">Resultados:</h3>
+            <div className="space-y-3 mt-2">
+              {buscado.map((item, index) => (
+                <div key={index} className="p-4 bg-white rounded-lg shadow-md">
+                  <h3 className="font-bold text-emerald-600">
+                    Cliente Numero: {item.id}
+                  </h3>
+                  <p>
+                    <strong>Nombre: </strong>
+                    {item.cliente}
+                  </p>
+                  <p>
+                    <strong>Teléfono: </strong>
+                    {item.telefono}
+                  </p>
+                  <p>
+                    <strong>Domicilio: </strong>
+                    {item.domicilio}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p className="text-gray-600">No se encontraron resultados.</p>
+        )}
       </div>
     </>
   );
