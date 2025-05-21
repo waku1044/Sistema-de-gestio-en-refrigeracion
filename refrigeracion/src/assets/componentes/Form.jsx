@@ -4,7 +4,7 @@ const Form = ({ tipo, onAdd }) => {
   const [formData, setFormData] = useState({
     cliente: "",
     domicilio: "",
-    tipo: "",
+    equipo: "",
     telefono:'',
     marca: "",
     falla: "",
@@ -41,12 +41,14 @@ const Form = ({ tipo, onAdd }) => {
       setErrorData(errors); // Establecer los errores en el estado
       return;
     }
-
+   
     // Enviar el formulario si no hay errores
     fetch(`http://localhost:3000/${tipo}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        ...formData,['tipo']:tipo
+      }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Error al agregar reparación");
@@ -58,7 +60,7 @@ const Form = ({ tipo, onAdd }) => {
           cliente: "",
           domicilio: "",
           telefono:"",
-          tipo: "",
+          equipo: "",
           marca: "",
           falla: "",
           fecha: "",
@@ -94,6 +96,7 @@ const Form = ({ tipo, onAdd }) => {
 
         <div className="relative my-3">
           <input
+            type="text"
             name="domicilio"
             placeholder="Domicilio"
             value={formData.domicilio}
@@ -121,14 +124,14 @@ const Form = ({ tipo, onAdd }) => {
 
         <div className="relative my-3">
           <input
-            name="tipo"
-            placeholder="Tipo"
-            value={formData.tipo}
+            name="equipo"
+            placeholder="Equipo"
+            value={formData.equipo}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
           <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
-            {errorData.tipo && errorData.tipo}
+            {errorData.equipo && errorData.equipo}
           </span>
         </div>
 

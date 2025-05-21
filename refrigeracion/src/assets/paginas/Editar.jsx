@@ -79,8 +79,7 @@ const Editar = () => {
     if (!equipo.fecha?.trim()) errores.fecha = "La fecha es obligatoria";
     if (!equipo.descripcion?.trim())
       errores.descripcion = "La descripción es obligatoria";
-    if (!equipo.fechaEntrega?.trim())
-      errores.fechaEntrega = "La fecha de entrega es obligatoria";
+    
 
     return errores;
   };

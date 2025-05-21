@@ -5,7 +5,10 @@ import NavBar from "../componentes/NavBar";
 
 const ListaReparaciones = () => {
   const [reparaciones, setReparaciones] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Página actual
+  const itemsPerPage = 10; // Número de items por página
 
+  // Función para obtener los reparaciones de la API
   const fetchReparaciones = () => {
     fetch("http://localhost:3000/reparacion")
       .then((res) => res.json())
@@ -25,14 +28,11 @@ const ListaReparaciones = () => {
 
     if (nuevoEstado === "Entregado") {
       const fecha = new Date();
-
       const año = fecha.getFullYear();
       const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Suma 1 porque enero es 0
       const dia = String(fecha.getDate()).padStart(2, "0");
 
       const fechaFormateada = `${año}-${mes}-${dia}`;
-
-      
 
       actualizado = {
         ...repOriginal,
@@ -62,6 +62,25 @@ const ListaReparaciones = () => {
       .catch((err) => console.error("Error actualizando estado:", err));
   };
 
+  // Lógica de paginación
+  const totalPages = Math.ceil(reparaciones.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = reparaciones.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Cambiar de página
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <>
       <NavBar activo={true} tipo="reparacion" />
@@ -75,8 +94,8 @@ const ListaReparaciones = () => {
                 : ""
             }
           >
-            {reparaciones.length > 0 ? (
-              reparaciones.map((rep) => (
+            {currentItems.length > 0 ? (
+              currentItems.map((rep) => (
                 <CardProducto
                   key={rep.id}
                   rep={rep}
@@ -91,6 +110,27 @@ const ListaReparaciones = () => {
               </div>
             )}
           </div>
+
+          {/* Paginación */}
+          {totalPages > 1 && (
+            <div className="flex justify-center space-x-4 mt-4">
+              <button
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400"
+              >
+                Anterior
+              </button>
+              <span className="self-center">{`Página ${currentPage} de ${totalPages}`}</span>
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400"
+              >
+                Siguiente
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

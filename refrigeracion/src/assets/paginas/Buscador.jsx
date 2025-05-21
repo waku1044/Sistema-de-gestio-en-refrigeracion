@@ -26,7 +26,10 @@ const Buscador = () => {
           return res.json();
         })
         .then((data) => {
-          let resultado = data.filter((item) => item.domicilio === datoInput);
+          let resultado = data.filter(
+            (item) =>
+            item.domicilio.trim().toLowerCase().includes(datoInput.trim().toLowerCase())
+          );
 
           if (resultado.length === 0) {
             throw new Error("No se encontraron resultados");
@@ -43,7 +46,9 @@ const Buscador = () => {
             })
             .then((data) => {
               let resultado = data.filter(
-                (item) => item.domicilio === datoInput
+                (item) =>
+                  item.domicilio.trim().toLowerCase() ===
+                  datoInput.trim().toLowerCase()
               );
 
               if (resultado.length === 0) {
@@ -108,7 +113,7 @@ const Buscador = () => {
           className="font-semibold bg-blue-500 text-white rounded-full py-2 px-6 hover:bg-blue-600"
           onClick={() => setBuscarPor(!buscarPor)}
         >
-          Buscar por: {buscarPor ? "Teléfono" : "Domicilio"  }
+          Buscar por: {buscarPor ? "Teléfono" : "Domicilio"}
         </button>
 
         <div className="w-full max-w-xl">
@@ -135,11 +140,14 @@ const Buscador = () => {
             <h3 className="font-bold text-lg text-gray-800">Resultados:</h3>
             <div className="space-y-3 mt-2">
               {buscado.map((item, index) => (
-                <div key={index} className="p-4 bg-white rounded-lg shadow-md">
-                  <h3 className="font-bold text-emerald-600">
-                    Cliente Numero: {item.id}
-                  </h3>
-                  <p>
+                <div key={index} className="p-4 bg-amber-200 rounded-lg shadow-md">
+                  <div className="flex justify-around mb-5">
+                    <h3 className="font-bold ">
+                      Cliente Numero: <i className="text-emerald-600">{item.id}</i> 
+                    </h3>
+                    <p className="capitalize font-bold">Tipo: <i className="text-emerald-600">{item.tipo}</i></p>
+                  </div>
+                  <p className="capitalize">
                     <strong>Nombre: </strong>
                     {item.cliente}
                   </p>
@@ -147,7 +155,7 @@ const Buscador = () => {
                     <strong>Teléfono: </strong>
                     {item.telefono}
                   </p>
-                  <p>
+                  <p className="capitalize">
                     <strong>Domicilio: </strong>
                     {item.domicilio}
                   </p>

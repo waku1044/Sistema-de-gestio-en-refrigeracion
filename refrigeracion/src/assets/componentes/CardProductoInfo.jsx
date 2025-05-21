@@ -57,22 +57,25 @@ const CardProductoInfo = ({ rep }) => {
 
   return (
     <div className="p-4 rounded-lg border border-gray-200 bg-gray-300 shadow-sm ">
-      <p>
+      <p className='capitalize'>
         <strong>Cliente:</strong> {rep.cliente}
       </p>
-      <p>
+      <p className='capitalize'>
         <strong>Domicilio:</strong> {rep.domicilio}
       </p>
       <p>
         <strong>Telefono:</strong> {rep.telefono}
       </p>
-      <p>
+      <p className='capitalize'>
         <strong>Tipo:</strong> {rep.tipo}
       </p>
-      <p>
+      <p className='capitalize'>
+        <strong>Equipo:</strong> {rep.equipo}
+      </p>
+      <p className='capitalize'>
         <strong>Marca:</strong> {rep.marca}
       </p>
-      <p>
+      <p className='capitalize'>
         <strong>Falla:</strong> {rep.falla}
       </p>
       <p>
@@ -80,7 +83,7 @@ const CardProductoInfo = ({ rep }) => {
         {rep.fecha}
       </p>
 
-      <p className="overflow-auto">
+      <p className="overflow-auto capitalize">
         <strong>Descripcion:</strong> {rep.descripcion}
       </p>
 
