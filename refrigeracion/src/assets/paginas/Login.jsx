@@ -10,24 +10,50 @@ const Login = () => {
   const [clave, setClave] = useState("");
   const [error, setError] = useState("");
   const [mostrarClave, setMostrarClave] = useState(false);
+  const [respuesta, setRespuesta] = useState();
 
   const navigate = useNavigate(); // ← hook de navegación
 
   const handleLogin = (e) => {
     e.preventDefault();
-    Loading.dots();
-    if (usuario === "walter" && clave === "12345") {
-      // Aquí podrías redirigir o guardar sesión
-      setTimeout(() => {
-        Notify.success("Bienvenido, Walter 👋");
-        navigate("/principal");
-      }, 2000);
-    } else {
-      setTimeout(() => {
-        Loading.remove();
-        setError("Usuario o contraseña incorrectos");
-      }, 2000);
-    }
+    Loading.dots(); // Muestra el loading
+
+    fetch("http://localhost:5000/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user: usuario, password: clave }),
+    })
+      .then((res) => {
+        console.log(res); // Verifica la respuesta completa
+
+        // Verificar si la respuesta fue exitosa
+        if (!res.ok) {
+          throw new Error("Error en la solicitud: " + res.statusText);
+        }
+
+        return res.json(); // Procesar la respuesta como JSON
+      })
+      .then((data) => {
+        // Remover el loading al obtener la respuesta
+        Notify.success(data.message);
+        setTimeout(() => {
+          navigate("/principal");
+        }, 2000); // Verifica la respuesta JSON
+        // Aquí puedes manejar la data como necesites (por ejemplo, guardar el token o redirigir)
+      })
+      .catch((err) => {
+        setTimeout(() => {
+          Loading.remove(); // Remover el loading en caso de error
+          console.error("Ocurrió un error:", err); // Mostrar el error completo
+
+          // Puedes mostrar un mensaje al usuario, por ejemplo:
+          Notify.failure(
+            "Hubo un problema al iniciar sesión. Inténtalo de nuevo."
+          );
+        },2000);
+      });
   };
 
   return (

@@ -28,7 +28,7 @@ const Form = ({ tipo, onAdd }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(tipo)
     // Validación de los campos
     const errors = {};
     Object.keys(formData).forEach((key) => {
@@ -43,7 +43,7 @@ const Form = ({ tipo, onAdd }) => {
     }
    
     // Enviar el formulario si no hay errores
-    fetch(`http://localhost:3000/${tipo}`, {
+    fetch(`http://localhost:5000/api/${tipo}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -164,7 +164,7 @@ const Form = ({ tipo, onAdd }) => {
         <div className="relative my-3">
           <input
             name="fecha"
-            type="date"
+            type="Date"
             value={formData.fecha}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"

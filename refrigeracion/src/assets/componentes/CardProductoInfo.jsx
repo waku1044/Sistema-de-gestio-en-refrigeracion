@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 const CardProductoInfo = ({ rep }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-    
+    console.log(id)
   const handleEliminar = () => {
     const confirmar = window.confirm("¿Estás seguro de eliminar este equipo?");
     if (!confirmar) return;
@@ -12,7 +12,7 @@ const CardProductoInfo = ({ rep }) => {
     const tipo = rep.tipo === "instalacion" ? "instalacion" : "reparacion";
   
     // Realizamos la solicitud DELETE
-    fetch(`http://localhost:3000/${tipo}/${id}`, {
+    fetch(`http://localhost:5000/${tipo}/${id}`, {
       method: "DELETE",
     })
       .then((res) => {

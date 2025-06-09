@@ -20,7 +20,7 @@ const Buscador = () => {
     if (buscarPor) {
       // Buscar por Domicilio
       // Buscar primero en reparación
-      fetch(`http://localhost:3000/reparacion/`)
+      fetch(`http://localhost:5000/api/clientes/`)
         .then((res) => {
           if (!res.ok) throw new Error("No encontrado en reparación");
           return res.json();
@@ -34,12 +34,13 @@ const Buscador = () => {
           if (resultado.length === 0) {
             throw new Error("No se encontraron resultados");
           }
+          console.log(resultado)
           setBuscado(resultado); // Guardamos el arreglo de resultados
           setMensaje(""); // limpiar mensaje si encontró algo
         })
         .catch(() => {
           // Si no está en reparación, buscar en instalación
-          fetch(`http://localhost:3000/instalacion/`)
+          fetch(`http://localhost:5000/api/clientes/`)
             .then((res) => {
               if (!res.ok) throw new Error("No encontrado en instalación");
               return res.json();
@@ -54,6 +55,7 @@ const Buscador = () => {
               if (resultado.length === 0) {
                 throw new Error("No se encontraron resultados");
               }
+              console.log(resultado)
               setBuscado(resultado); // Guardamos el arreglo de resultados
               setMensaje(""); // encontrado en instalación
             })
@@ -63,37 +65,44 @@ const Buscador = () => {
         });
     } else {
       // Buscar por Teléfono
-      fetch(`http://localhost:3000/reparacion/`)
+      fetch(`http://localhost:5000/api/clientes/`)
         .then((res) => {
           if (!res.ok) throw new Error("No encontrado en reparación");
           return res.json();
         })
         .then((data) => {
-          let resultado = data.filter(
-            (item) => item.telefono.trim() === datoInput.trim()
-          );
-
-          if (resultado.length === 0) {
-            throw new Error("No se encontraron resultados");
-          }
+          const numero = parseInt(datoInput.trim(), 10)
+          
+          const resultado = data.filter(
+            (item) =>
+            item.telefono === numero
+            );
+            console.log(resultado)
+            
+            if(resultado.length === 0) {
+              throw new Error("No se encontraron resultados");
+            }
+            console.log(resultado)
           setBuscado(resultado); // Guardamos el arreglo de resultados
           setMensaje(""); // limpiar mensaje si encontró algo
         })
         .catch(() => {
           // Si no está en reparación, buscar en instalación
-          fetch(`http://localhost:3000/instalacion/`)
+          fetch(`http://localhost:5000/api/clientes/`)
             .then((res) => {
               if (!res.ok) throw new Error("No encontrado en instalación");
               return res.json();
             })
             .then((data) => {
+              const numero = parseInt(datoInput.trim(), 10)
               let resultado = data.filter(
-                (item) => item.telefono.trim() === datoInput.trim()
-              );
-
-              if (resultado.length === 0) {
-                throw new Error("No se encontraron resultados");
-              }
+                (item) => item.telefono === numero
+                );
+                
+                if (resultado.length === 0) {
+                  throw new Error("No se encontraron resultados");
+                }
+                console.log(resultado)
               setBuscado(resultado); // Guardamos el arreglo de resultados
               setMensaje(""); // encontrado en instalación
             })
@@ -140,12 +149,13 @@ const Buscador = () => {
             <h3 className="font-bold text-lg text-gray-800">Resultados:</h3>
             <div className="space-y-3 mt-2">
               {buscado.map((item, index) => (
+                
                 <div key={index} className="p-4 bg-amber-200 rounded-lg shadow-md">
                   <div className="flex justify-around mb-5">
                     <h3 className="font-bold ">
-                      Cliente Numero: <i className="text-emerald-600">{item.id}</i> 
+                      Cliente Numero: <i className="text-emerald-600">{item._id}</i> 
                     </h3>
-                    <p className="capitalize font-bold">Tipo: <i className="text-emerald-600">{item.tipo}</i></p>
+                    
                   </div>
                   <p className="capitalize">
                     <strong>Nombre: </strong>
@@ -160,7 +170,7 @@ const Buscador = () => {
                     {item.domicilio}
                   </p>
                 </div>
-              ))}
+))}
             </div>
           </div>
         ) : (

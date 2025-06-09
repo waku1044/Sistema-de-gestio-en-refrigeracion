@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CardProducto from "../componentes/CardProducto";
 import Form from "../componentes/Form";
 import NavBar from "../componentes/NavBar";
+import { Notify } from "notiflix";
 
 const Instalacion = () => {
   const [instalaciones, setInstalaciones] = useState([]);
@@ -10,9 +11,11 @@ const Instalacion = () => {
 
   // Función para obtener instalaciones de la API
   const fetchinstalaciones = () => {
-    fetch("http://localhost:3000/instalacion")
+    fetch("http://localhost:5000/api/instalacion")
       .then((res) => res.json())
-      .then((data) => setInstalaciones(data));
+      .then((data) => {
+        Notify.success('Listado Actualizado')
+        setInstalaciones(data)});
   };
 
   useEffect(() => {
@@ -20,8 +23,8 @@ const Instalacion = () => {
   }, []);
 
   const onActualizarEstado = (id, nuevoEstado) => {
-    const repOriginal = instalaciones.find((r) => r.id === id);
-
+    console.log(instalaciones)
+    const repOriginal = instalaciones.find((r) => r._id === id);
     if (!repOriginal) return console.error("Instalación no encontrada");
 
     let actualizado = {};
@@ -46,7 +49,7 @@ const Instalacion = () => {
       };
     }
 
-    fetch(`http://localhost:3000/instalacion/${id}`, {
+    fetch(`http://localhost:5000/api/instalacion/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(actualizado), 

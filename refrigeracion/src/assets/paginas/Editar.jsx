@@ -9,19 +9,36 @@ const Editar = () => {
   const [errorData, setErrorData] = useState({});
   const { id } = useParams();
   const [tipo, setTipo] = useState();
-  const navegate = useNavigate();
+  const navigate = useNavigate();
+  
+  const [cliente, setCliente] = useState('');
+
+
+const clientePorId =(id)=>{
+  fetch(`http://localhost:5000/api/cliente/${id}`)
+  .then(res=>res.json())
+  .then(data=>setCliente(data))
+  .catch(err=>console.error(err))
+}
+
+
+
+
   useEffect(() => {
     if (id) {
       // Intentamos obtener los datos de "reparacion"
-      fetch(`http://localhost:3000/reparacion/${id}`)
+      console.log(id);
+      fetch(`http://localhost:5000/api/reparacion/${id}`)
         .then((res) => {
           if (!res.ok) {
             // Si no conseguimos los datos de "reparacion", lanzamos un error
             throw new Error("No encontrado en reparacion");
           }
+          
           return res.json(); // Convertimos la respuesta en JSON si la solicitud es exitosa
         })
         .then((data) => {
+          clientePorId(data.idCliente);
           setEquipo(data);
           setTipo("reparacion");
         }) // Si la petición es exitosa, actualizamos el estado
@@ -30,7 +47,7 @@ const Editar = () => {
 
           // Si hubo un error en la búsqueda de "reparacion", intentamos con "instalacion"
           if (err.message === "No encontrado en reparacion") {
-            fetch(`http://localhost:3000/instalacion/${id}`)
+            fetch(`http://localhost:5000/instalacion/api/${id}`)
               .then((res) => {
                 if (!res.ok) {
                   throw new Error("No encontrado en instalacion");
@@ -38,6 +55,7 @@ const Editar = () => {
                 return res.json();
               })
               .then((data) => {
+                clientePorId(data.idCliente);
                 setTipo("instalacion");
                 setEquipo(data);
               }) // Si la segunda petición es exitosa, actualizamos el estado
@@ -54,6 +72,8 @@ const Editar = () => {
     }
   }, [id]);
 
+ 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -68,10 +88,10 @@ const Editar = () => {
   const validarCampos = () => {
     const errores = {};
 
-    if (!equipo.cliente?.trim()) errores.cliente = "El cliente es obligatorio";
-    if (!equipo.domicilio?.trim())
+    if (!cliente.cliente?.trim()) errores.cliente = "El cliente es obligatorio";
+    if (!cliente.domicilio?.trim())
       errores.domicilio = "El domicilio es obligatorio";
-    if (!equipo.telefono?.toString().trim())
+    if (!cliente.telefono?.toString().trim())
       errores.telefono = "El teléfono es obligatorio";
     if (!equipo.tipo?.trim()) errores.tipo = "El tipo es obligatorio";
     if (!equipo.marca?.trim()) errores.marca = "La marca es obligatoria";
@@ -79,7 +99,6 @@ const Editar = () => {
     if (!equipo.fecha?.trim()) errores.fecha = "La fecha es obligatoria";
     if (!equipo.descripcion?.trim())
       errores.descripcion = "La descripción es obligatoria";
-    
 
     return errores;
   };
@@ -87,9 +106,11 @@ const Editar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validación de los campos del formulario
     const errores = validarCampos();
     setErrorData(errores);
 
+    // Si hay errores, mostramos una notificación de error y detenemos el proceso
     if (Object.keys(errores).length > 0) {
       Notify.failure("Hay errores en el formulario");
       return;
@@ -97,22 +118,23 @@ const Editar = () => {
 
     // Si no hay errores, hacer una petición PUT
     Notify.success("Formulario válido. Puedes enviar los cambios.");
-    fetch(`http://localhost:3000/${tipo}/${id}`, {
+    console.log(equipo);
+    fetch(`http://localhost:5000/api/ ${tipo}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(equipo),
+      body: JSON.stringify(equipo), // Asegúrate de que "equipo" contenga los datos correctos
     })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Error al actualizar");
         }
-        return res.json();
+        return res.json(); // Devuelves los datos JSON de la respuesta
       })
       .then((data) => {
         Notify.success("Equipo actualizado correctamente");
-        navegate(`/${tipo}`)
+        navigate(`/${tipo}`); // Corregir "navegate" a "navigate"
         console.log("Respuesta del servidor:", data);
       })
       .catch((error) => {
@@ -121,9 +143,13 @@ const Editar = () => {
       });
   };
 
+  setTimeout(() => {
+    console.log(cliente);
+  }, 3000);
+
   return (
     <>
-    <NavBar activo={true} tipo="info" />
+      <NavBar activo={true} tipo="info" />
       <form
         onSubmit={handleSubmit}
         className="max-w-4xl mx-auto  bg-cyan-100 p-8 rounded-xl shadow space-y-6"
@@ -137,7 +163,7 @@ const Editar = () => {
             <input
               name="cliente"
               placeholder="Cliente"
-              value={equipo.cliente}
+              value={cliente.cliente}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
             />
@@ -150,7 +176,7 @@ const Editar = () => {
             <input
               name="domicilio"
               placeholder="Domicilio"
-              value={equipo.domicilio}
+              value={cliente.domicilio}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
             />
@@ -164,7 +190,7 @@ const Editar = () => {
               type="number"
               name="telefono"
               placeholder="Telefono"
-              value={equipo.telefono}
+              value={cliente.telefono}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
             />

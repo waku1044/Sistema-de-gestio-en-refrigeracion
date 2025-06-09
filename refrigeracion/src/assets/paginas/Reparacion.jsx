@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import CardProducto from "../componentes/CardProducto";
 import Form from "../componentes/Form";
 import NavBar from "../componentes/NavBar";
+import { Loading } from "notiflix/build/notiflix-loading-aio";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
+
 
 const ListaReparaciones = () => {
   const [reparaciones, setReparaciones] = useState([]);
@@ -9,19 +12,33 @@ const ListaReparaciones = () => {
   const itemsPerPage = 10; // Número de items por página
 
   // Función para obtener los reparaciones de la API
+
   const fetchReparaciones = () => {
-    fetch("http://localhost:3000/reparacion")
+    Loading.dots();
+
+    fetch("http://localhost:5000/api/reparacion")
       .then((res) => res.json())
-      .then((data) => setReparaciones(data));
+      .then((data) => {
+        Notify.success("Listado Actualizado");
+        setReparaciones(data);
+        console.log(data.map((item) => console.log(item.idCliente)));
+        Loading.remove();
+      })
+
+      .catch((err) => {
+        Loading.remove();
+        console.error("Ocurrio un error: ", err);
+      });
   };
 
   useEffect(() => {
     fetchReparaciones();
+    Loading.remove();
   }, []);
-
+  
   const onActualizarEstado = (id, nuevoEstado) => {
-    const repOriginal = reparaciones.find((r) => r.id === id); // ✅ obtenemos el objeto completo
-
+    console.log(reparaciones)
+    const repOriginal = reparaciones.find((r) => r._id === id); // ✅ obtenemos el objeto completo
     if (!repOriginal) return console.error("Reparación no encontrada");
 
     let actualizado = {};
@@ -37,7 +54,7 @@ const ListaReparaciones = () => {
       actualizado = {
         ...repOriginal,
         estado: nuevoEstado,
-        fechaEntrega: fechaFormateada
+        fechaEntrega: fechaFormateada,
       };
     } else {
       actualizado = {
@@ -45,21 +62,26 @@ const ListaReparaciones = () => {
         estado: nuevoEstado,
       };
     }
-
-    fetch(`http://localhost:3000/reparacion/${id}`, {
+    Loading.dots();
+    fetch(`http://localhost:5000/api/reparacion/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(actualizado), // ✅ enviamos el objeto completo
     })
       .then((res) => {
+        Loading.remove();
+
         if (!res.ok) throw new Error("Error al actualizar");
         return res.json();
       })
       .then(() => {
-        console.log("Estado actualizado");
+        Loading.remove();
         fetchReparaciones(); // ✅ recargamos la lista
       })
-      .catch((err) => console.error("Error actualizando estado:", err));
+      .catch((err) => {
+        Loading.remove();
+        console.error("Error actualizando estado:", err);
+      });
   };
 
   // Lógica de paginación
@@ -97,14 +119,14 @@ const ListaReparaciones = () => {
             {currentItems.length > 0 ? (
               currentItems.map((rep) => (
                 <CardProducto
-                  key={rep.id}
+                  key={rep.id} // Aquí usamos 'rep.id' como clave única
                   rep={rep}
                   onActualizarEstado={onActualizarEstado}
                 />
               ))
             ) : (
               <div>
-                <p className="mx-auto text-center font-bold text-yellow-400 text-xl ">
+                <p className="mx-auto text-center font-bold text-yellow-400 text-xl">
                   No Hay Equipos Registrados..
                 </p>
               </div>
