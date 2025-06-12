@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CardProductoInfo from "../componentes/CardProductoInfo";
-import NavBar from '../componentes/NavBar';
+import NavBar from "../componentes/NavBar";
 
 const Info = () => {
   const { id } = useParams(); // Obtenemos el "id" desde la URL
   const [equipo, setEquipo] = useState({}); // Estado para almacenar los datos obtenidos
   const [error, setError] = useState(null); // Estado para manejar errores
+  const [cliente, setCliente] = useState("");
+
+  const clientePorId = (id) => {
+    fetch(`http://localhost:5000/api/cliente/${id}`)
+      .then((res) => res.json())
+      .then((data) => setCliente(data))
+      .catch((err) => console.error(err));
+  };
 
   useEffect(() => {
     if (id) {
@@ -45,6 +53,7 @@ const Info = () => {
         });
     }
   }, [id]); // Dependemos de "id" para volver a ejecutar la búsqueda si cambia
+  clientePorId(equipo.idCliente);
 
   // Si hay un error, mostramos un mensaje
   if (error) {
@@ -57,16 +66,40 @@ const Info = () => {
 
   return (
     <>
-    <NavBar activo={true} tipo='info'/>
+      <NavBar activo={true} tipo="info" />
       <div className="flex items-center justify-center min-h-screen bg-gray-200">
         <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 max-w-3xl">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Detalles del Equipo
-          </h2>
-
-          <p className="text-gray-700 mb-4">
-            Id: <span className="font-bold">{id}</span>
-          </p>
+          <div className="flex justify-between">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4 hidden sm:block">
+              Detalles del Cliente
+            </h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4 hidden sm:block">
+              Detalles del Equipo
+            </h2>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-800  ">
+                Detalles del Cliente
+              </h2>
+              <p className="text-gray-700 capitalize ">
+                Cliente: <span className="font-bold">{cliente.cliente}</span>
+              </p>
+              <p className="text-gray-700 capitalize">
+                Domicilio:{" "}
+                <span className="font-bold">{cliente.domicilio}</span>
+              </p>
+              <p className="text-gray-700 ">
+                Telefono: <span className="font-bold">{cliente.telefono}</span>
+              </p>
+            </div>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-2 mt-4 block sm:hidden">
+              Detalles del Equipo
+            </h2>
+            <p className="text-gray-700 mb-4">
+              Id Equipo: <span className="font-bold">{id}</span>
+            </p>
+          </div>
 
           {/* Si el equipo se encuentra, renderizamos la tarjeta con los detalles */}
           {equipo && Object.keys(equipo).length > 0 ? (

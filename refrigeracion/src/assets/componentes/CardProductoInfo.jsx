@@ -1,18 +1,20 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
 const CardProductoInfo = ({ rep }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-    console.log(id)
-  const handleEliminar = () => {
+    
+    const handleEliminar = () => {
     const confirmar = window.confirm("¿Estás seguro de eliminar este equipo?");
     if (!confirmar) return;
-  
+    
+    console.log(rep)
     // Determinar si es reparacion o instalacion
     const tipo = rep.tipo === "instalacion" ? "instalacion" : "reparacion";
   
     // Realizamos la solicitud DELETE
-    fetch(`http://localhost:5000/${tipo}/${id}`, {
+    fetch(`http://localhost:5000/api/${tipo}/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -57,15 +59,6 @@ const CardProductoInfo = ({ rep }) => {
 
   return (
     <div className="p-4 rounded-lg border border-gray-200 bg-gray-300 shadow-sm ">
-      <p className='capitalize'>
-        <strong>Cliente:</strong> {rep.cliente}
-      </p>
-      <p className='capitalize'>
-        <strong>Domicilio:</strong> {rep.domicilio}
-      </p>
-      <p>
-        <strong>Telefono:</strong> {rep.telefono}
-      </p>
       <p className='capitalize'>
         <strong>Tipo:</strong> {rep.tipo}
       </p>

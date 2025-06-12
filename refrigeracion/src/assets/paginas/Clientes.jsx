@@ -12,6 +12,7 @@ const Clientes = () => {
   const [clientes, setClientes] = useState([]);
 
   const listaClientes = () => {
+    
     fetch("http://localhost:5000/api/clientes")
       .then((res) => res.json())
       .then((data) => setClientes(data))
