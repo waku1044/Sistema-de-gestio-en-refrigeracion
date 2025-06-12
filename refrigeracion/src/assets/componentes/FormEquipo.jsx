@@ -1,20 +1,23 @@
 import { useState } from "react";
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-const Form = ({ tipo, onAdd }) => {
+import { Notify } from "notiflix/build/notiflix-notify-aio";
+import { useParams } from 'react-router-dom';
+
+
+const FormEquipo = () => {
   const [formData, setFormData] = useState({
-    cliente: "",
-    domicilio: "",
+    idCliente:'',
     equipo: "",
-    telefono:'',
     marca: "",
     falla: "",
+    tipo:'reparacion',
     fecha: "",
     descripcion: "",
     estado: "Pendiente",
   });
 
   const [errorData, setErrorData] = useState({}); // Estado para errores
-
+  const { id } = useParams();
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -22,13 +25,14 @@ const Form = ({ tipo, onAdd }) => {
     if (value) {
       setErrorData((prev) => ({ ...prev, [name]: "" }));
     }
-
+    
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // setFormData(...formData,{[name]:value})
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(tipo)
+    setFormData((prev)=>({...prev,idCliente:id}))
     // Validación de los campos
     const errors = {};
     Object.keys(formData).forEach((key) => {
@@ -36,38 +40,35 @@ const Form = ({ tipo, onAdd }) => {
         errors[key] = "Debe completar el campo.";
       }
     });
-
+    console.log(errors)
     if (Object.keys(errors).length > 0) {
       setErrorData(errors); // Establecer los errores en el estado
       return;
     }
-   
+    console.log(formData)
     // Enviar el formulario si no hay errores
-    fetch(`http://localhost:5000/api/${tipo}`, {
+    fetch(`http://localhost:5000/api/agregarequipo`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...formData,['tipo']:tipo
-      }),
+      body: JSON.stringify(formData)
     })
       .then((res) => {
         if (!res.ok) throw new Error("Error al agregar reparación");
         return res.json();
       })
       .then(() => {
-        if (onAdd) onAdd(); // 👈 Actualiza la lista en el padre
+        // if (onAdd) onAdd(); 
         setFormData({
-          cliente: "",
-          domicilio: "",
-          telefono:"",
           equipo: "",
           marca: "",
           falla: "",
           fecha: "",
+          tipo:'',
           descripcion: "",
+          fechaEntrega: "",
           estado: "Pendiente",
         });
-        Notify.success('Se agrego equipo con Exito');
+        Notify.success("Se agrego equipo con Exito");
         setErrorData({}); // Limpiar los errores después del envío
       })
       .catch((err) => console.error("Error al enviar:", err));
@@ -78,49 +79,18 @@ const Form = ({ tipo, onAdd }) => {
       onSubmit={handleSubmit}
       className="max-w-4xl mx-auto  bg-cyan-100 p-8 rounded-xl shadow space-y-6"
     >
-      <h2 className="text-xl font-bold mb-4 text-center">Nuevo equipo para  ({tipo})</h2>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="relative my-3">
-          <input
-            name="cliente"
-            placeholder="Cliente"
-            value={formData.cliente}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
-          />
-          <span className="text-red-500  text-sm absolute bottom-[-18px] left-5 ">
-            {errorData.cliente && errorData.cliente}
-          </span>
-        </div>
-
-        <div className="relative my-3">
-          <input
-            type="text"
-            name="domicilio"
-            placeholder="Domicilio"
-            value={formData.domicilio}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
-          />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
-            {errorData.domicilio && errorData.domicilio}
-          </span>
-        </div>
-
-        <div className="relative my-3">
-          <input
-            type="number"
-            name="telefono"
-            placeholder="Telefono"
-            value={formData.telefono}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
-          />
-          <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
-            {errorData.telefono && errorData.telefono}
-          </span>
-        </div>
+        
+        <label htmlFor="tipo" className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200">Selecciona el servicio:</label>
+        <select 
+        id="tipo" 
+        name="tipo" 
+        value={formData.tipo}
+        onChange={handleChange}
+        className="bg-red-300 text-emerald-950">
+          <option value="reparacion" >Reparación</option>
+          <option value="instalacion" >Instalación</option>
+        </select>
 
         <div className="relative my-3">
           <input
@@ -128,7 +98,7 @@ const Form = ({ tipo, onAdd }) => {
             placeholder="Equipo"
             value={formData.equipo}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
           <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.equipo && errorData.equipo}
@@ -141,7 +111,7 @@ const Form = ({ tipo, onAdd }) => {
             placeholder="Marca"
             value={formData.marca}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
           <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.marca && errorData.marca}
@@ -154,7 +124,7 @@ const Form = ({ tipo, onAdd }) => {
             placeholder="Falla"
             value={formData.falla}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
           <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.falla && errorData.falla}
@@ -167,7 +137,7 @@ const Form = ({ tipo, onAdd }) => {
             type="Date"
             value={formData.fecha}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
           />
           <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
             {errorData.fecha && errorData.fecha}
@@ -181,7 +151,7 @@ const Form = ({ tipo, onAdd }) => {
           placeholder="Descripción"
           value={formData.descripcion}
           onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200 "
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200 "
           rows={3}
         />
         <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
@@ -201,4 +171,4 @@ const Form = ({ tipo, onAdd }) => {
   );
 };
 
-export default Form;
+export default FormEquipo;

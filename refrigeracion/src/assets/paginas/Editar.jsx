@@ -11,15 +11,15 @@ const Editar = () => {
   const [tipo, setTipo] = useState();
   const navigate = useNavigate();
   
-  const [cliente, setCliente] = useState('');
+  // const [cliente, setCliente] = useState('');
 
 
-const clientePorId =(id)=>{
-  fetch(`http://localhost:5000/api/cliente/${id}`)
-  .then(res=>res.json())
-  .then(data=>setCliente(data))
-  .catch(err=>console.error(err))
-}
+// const clientePorId =(id)=>{
+//   fetch(`http://localhost:5000/api/cliente/${id}`)
+//   .then(res=>res.json())
+//   .then(data=>setCliente(data))
+//   .catch(err=>console.error(err))
+// }
 
 
 
@@ -38,7 +38,6 @@ const clientePorId =(id)=>{
           return res.json(); // Convertimos la respuesta en JSON si la solicitud es exitosa
         })
         .then((data) => {
-          clientePorId(data.idCliente);
           setEquipo(data);
           setTipo("reparacion");
         }) // Si la petición es exitosa, actualizamos el estado
@@ -55,7 +54,6 @@ const clientePorId =(id)=>{
                 return res.json();
               })
               .then((data) => {
-                clientePorId(data.idCliente);
                 setTipo("instalacion");
                 setEquipo(data);
               }) // Si la segunda petición es exitosa, actualizamos el estado
@@ -81,18 +79,11 @@ const clientePorId =(id)=>{
     if (value) {
       setErrorData((prev) => ({ ...prev, [name]: "" }));
     }
-
     setEquipo((prev) => ({ ...prev, [name]: value }));
   };
 
   const validarCampos = () => {
     const errores = {};
-
-    if (!cliente.cliente?.trim()) errores.cliente = "El cliente es obligatorio";
-    if (!cliente.domicilio?.trim())
-      errores.domicilio = "El domicilio es obligatorio";
-    if (!cliente.telefono?.toString().trim())
-      errores.telefono = "El teléfono es obligatorio";
     if (!equipo.tipo?.trim()) errores.tipo = "El tipo es obligatorio";
     if (!equipo.marca?.trim()) errores.marca = "La marca es obligatoria";
     if (!equipo.falla?.trim()) errores.falla = "La falla es obligatoria";
@@ -103,23 +94,10 @@ const clientePorId =(id)=>{
     return errores;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  
 
-    // Validación de los campos del formulario
-    const errores = validarCampos();
-    setErrorData(errores);
-
-    // Si hay errores, mostramos una notificación de error y detenemos el proceso
-    if (Object.keys(errores).length > 0) {
-      Notify.failure("Hay errores en el formulario");
-      return;
-    }
-
-    // Si no hay errores, hacer una petición PUT
-    Notify.success("Formulario válido. Puedes enviar los cambios.");
-    console.log(equipo);
-    fetch(`http://localhost:5000/api/ ${tipo}/${id}`, {
+  const actualizarEquipo = (tipo,id)=>{
+    fetch(`http://localhost:5000/api/${tipo}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -141,11 +119,27 @@ const clientePorId =(id)=>{
         console.error("Error en la actualización:", error);
         Notify.failure("Hubo un problema al actualizar");
       });
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validación de los campos del formulario
+    const errores = validarCampos();
+    setErrorData(errores);
+
+    // Si hay errores, mostramos una notificación de error y detenemos el proceso
+    if (Object.keys(errores).length > 0) {
+      Notify.failure("Hay errores en el formulario");
+      return;
+    }
+    actualizarEquipo(tipo, id);
+    // Si no hay errores, hacer una petición PUT
+    Notify.success("Formulario válido. Puedes enviar los cambios.");
+    console.log(equipo);
+    
   };
 
-  setTimeout(() => {
-    console.log(cliente);
-  }, 3000);
 
   return (
     <>
@@ -155,62 +149,10 @@ const clientePorId =(id)=>{
         className="max-w-4xl mx-auto  bg-cyan-100 p-8 rounded-xl shadow space-y-6"
       >
         <h2 className="text-xl font-bold mb-4 text-center">
-          Equipo para Editar
+          Editar Equipo
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="relative my-3">
-            <input
-              name="cliente"
-              placeholder="Cliente"
-              value={cliente.cliente}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
-            />
-            <span className="text-red-500  text-sm absolute bottom-[-18px] left-5 ">
-              {errorData.cliente && errorData.cliente}
-            </span>
-          </div>
-
-          <div className="relative my-3">
-            <input
-              name="domicilio"
-              placeholder="Domicilio"
-              value={cliente.domicilio}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
-            />
-            <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
-              {errorData.domicilio && errorData.domicilio}
-            </span>
-          </div>
-
-          <div className="relative my-3">
-            <input
-              type="number"
-              name="telefono"
-              placeholder="Telefono"
-              value={cliente.telefono}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
-            />
-            <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
-              {errorData.telefono && errorData.telefono}
-            </span>
-          </div>
-
-          <div className="relative my-3">
-            <input
-              name="tipo"
-              placeholder="Tipo"
-              value={equipo.tipo}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
-            />
-            <span className="text-red-500 text-sm absolute bottom-[-18px] left-5">
-              {errorData.tipo && errorData.tipo}
-            </span>
-          </div>
 
           <div className="relative my-3">
             <input

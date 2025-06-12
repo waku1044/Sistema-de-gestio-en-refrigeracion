@@ -58,6 +58,7 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
 
       case "Entregado":
         return (
+          
           <Link
             className="bg-emerald-500 py-2 px-5 font-bold text-amber-50 rounded-2xl"
             to={`/info/${rep._id}`}
@@ -73,16 +74,6 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
 
   return (
     <div className="p-4 rounded-lg border border-gray-200 bg-gray-300 shadow-sm ">
-      {/* <p className='capitalize'>
-        <strong >Cliente:</strong> {cliente?.cliente}
-      </p>
-      <p className='capitalize'>
-        <strong>Domicilio:</strong> {cliente?.domicilio}
-      </p>
-       */}
-       {/* <p>
-        <strong>Id:</strong> {rep.idCliente}
-      </p> */}
       <p className="capitalize">
         <strong>Equipo:</strong> {rep.equipo}
       </p>

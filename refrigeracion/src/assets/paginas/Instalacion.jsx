@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import CardProducto from "../componentes/CardProducto";
-import Form from "../componentes/Form";
+
 import NavBar from "../componentes/NavBar";
 import { Notify } from "notiflix";
 
@@ -69,7 +69,7 @@ const Instalacion = () => {
   const totalPages = Math.ceil(instalaciones.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = instalaciones.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = Array.isArray(instalaciones)?instalaciones.slice(indexOfFirstItem, indexOfLastItem): setInstalaciones([]);
 
   // Cambiar de página
   const handleNextPage = () => {
@@ -88,12 +88,11 @@ const Instalacion = () => {
     <>
       <NavBar activo={true} tipo="instalacion" />
       <div className="min-h-screen bg-gray-300 p-6">
+      <h1 className="text-4xl font-bold text-center text-cyan-700 mb-4">
+          Instalación
+        </h1>
         <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
-          <Form
-            tipo="instalacion"
-            onAdd={fetchinstalaciones}
-            className="mt-5"
-          />
+          
           <div
             className={
               instalaciones.length > 0

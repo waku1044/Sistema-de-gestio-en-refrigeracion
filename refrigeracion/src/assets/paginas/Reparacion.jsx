@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import CardProducto from "../componentes/CardProducto";
-import Form from "../componentes/Form";
+import Form from "../componentes/FormEquipo";
 import NavBar from "../componentes/NavBar";
 import { Loading } from "notiflix/build/notiflix-loading-aio";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-
 
 const ListaReparaciones = () => {
   const [reparaciones, setReparaciones] = useState([]);
@@ -20,11 +19,10 @@ const ListaReparaciones = () => {
       .then((res) => res.json())
       .then((data) => {
         Notify.success("Listado Actualizado");
+        console.log(data);
         setReparaciones(data);
-        console.log(data.map((item) => console.log(item.idCliente)));
         Loading.remove();
       })
-
       .catch((err) => {
         Loading.remove();
         console.error("Ocurrio un error: ", err);
@@ -35,22 +33,24 @@ const ListaReparaciones = () => {
     fetchReparaciones();
     Loading.remove();
   }, []);
-  
+
   const onActualizarEstado = (id, nuevoEstado) => {
-    console.log(reparaciones)
+    console.log('1_actualizacion');
     const repOriginal = reparaciones.find((r) => r._id === id); // ✅ obtenemos el objeto completo
+    console.log(repOriginal)
     if (!repOriginal) return console.error("Reparación no encontrada");
 
     let actualizado = {};
 
     if (nuevoEstado === "Entregado") {
+      console.log('2_entro en entregado')
       const fecha = new Date();
       const año = fecha.getFullYear();
       const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Suma 1 porque enero es 0
       const dia = String(fecha.getDate()).padStart(2, "0");
 
       const fechaFormateada = `${año}-${mes}-${dia}`;
-
+      console.log('3_actualiza fecha')
       actualizado = {
         ...repOriginal,
         estado: nuevoEstado,
@@ -62,6 +62,7 @@ const ListaReparaciones = () => {
         estado: nuevoEstado,
       };
     }
+    console.log('4_actualizado', actualizado)
     Loading.dots();
     fetch(`http://localhost:5000/api/reparacion/${id}`, {
       method: "PUT",
@@ -88,7 +89,9 @@ const ListaReparaciones = () => {
   const totalPages = Math.ceil(reparaciones.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = reparaciones.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = Array.isArray(reparaciones)
+    ? reparaciones.slice(indexOfFirstItem, indexOfLastItem)
+    : setReparaciones([]);
 
   // Cambiar de página
   const handleNextPage = () => {
@@ -107,8 +110,11 @@ const ListaReparaciones = () => {
     <>
       <NavBar activo={true} tipo="reparacion" />
       <div className="min-h-screen bg-gray-300 p-6">
+        <h1 className="text-4xl font-bold text-center text-cyan-700 mb-4">
+          Reparación
+        </h1>
+
         <div className="max-w-4xl mx-auto bg-cyan-700 p-8 rounded-xl shadow space-y-6">
-          <Form tipo="reparacion" onAdd={fetchReparaciones} className="mt-5" />
           <div
             className={
               reparaciones.length > 0

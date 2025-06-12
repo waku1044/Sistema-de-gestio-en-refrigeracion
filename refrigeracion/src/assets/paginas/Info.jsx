@@ -11,7 +11,7 @@ const Info = () => {
   useEffect(() => {
     if (id) {
       // Intentamos obtener los datos de "reparacion"
-      fetch(`http://localhost:5000/reparacion/${id}`)
+      fetch(`http://localhost:5000/api/reparacion/${id}`)
         .then((res) => {
           if (!res.ok) {
             // Si no conseguimos los datos de "reparacion", lanzamos un error
@@ -25,7 +25,7 @@ const Info = () => {
 
           // Si hubo un error en la búsqueda de "reparacion", intentamos con "instalacion"
           if (err.message === "No encontrado en reparacion") {
-            fetch(`http://localhost:5000/instalacion/${id}`)
+            fetch(`http://localhost:5000/api/instalacion/${id}`)
               .then((res) => {
                 if (!res.ok) {
                   throw new Error("No encontrado en instalacion");

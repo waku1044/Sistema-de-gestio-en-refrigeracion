@@ -29,6 +29,14 @@ function NavBar(props) {
               </Link>
             </li>
             <li>
+              <Link
+                className="text-blue-300 font-bold hover:text-emerald-300"
+                to="/clientes"
+              >
+                Clientes
+              </Link>
+            </li>
+            <li>
               {tipo === "reparacion" ? (
                 <div className="flex gap-3">
                   <Link
