@@ -20,7 +20,7 @@ const Buscador = () => {
     if (buscarPor) {
       // Buscar por Domicilio
       // Buscar primero en reparación
-      fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/clientes/`)
+      fetch(`https://backend-refri.vercel.app/api/clientes/`)
         .then((res) => {
           if (!res.ok) throw new Error("No encontrado en reparación");
           return res.json();
@@ -40,7 +40,7 @@ const Buscador = () => {
         })
         .catch(() => {
           // Si no está en reparación, buscar en instalación
-          fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/clientes/`)
+          fetch(`https://backend-refri.vercel.app/api/clientes/`)
             .then((res) => {
               if (!res.ok) throw new Error("No encontrado en instalación");
               return res.json();
@@ -65,7 +65,7 @@ const Buscador = () => {
         });
     } else {
       // Buscar por Teléfono
-      fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/clientes/`)
+      fetch(`https://backend-refri.vercel.app/api/clientes/`)
         .then((res) => {
           if (!res.ok) throw new Error("No encontrado en reparación");
           return res.json();
@@ -88,7 +88,7 @@ const Buscador = () => {
         })
         .catch(() => {
           // Si no está en reparación, buscar en instalación
-          fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/clientes/`)
+          fetch(`https://backend-refri.vercel.app/api/clientes/`)
             .then((res) => {
               if (!res.ok) throw new Error("No encontrado en instalación");
               return res.json();

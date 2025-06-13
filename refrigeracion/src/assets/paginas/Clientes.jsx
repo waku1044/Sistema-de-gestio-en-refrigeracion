@@ -13,7 +13,7 @@ const Clientes = () => {
 
   const listaClientes = () => {
     
-    fetch("https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/clientes")
+    fetch("https://backend-refri.vercel.app/api/clientes")
       .then((res) => res.json())
       .then((data) => setClientes(data))
       .catch((err) => console.error(err));

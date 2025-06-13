@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     Loading.dots(); // Muestra el loading
 
-    fetch("https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api", {
+    fetch("https://backend-refri.vercel.app/api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -41,7 +41,7 @@ const FormCliente = () => {
     }
 
     // Enviar el formulario si no hay errores
-    fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/clientes`, {
+    fetch(`https://backend-refri.vercel.app/api/clientes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

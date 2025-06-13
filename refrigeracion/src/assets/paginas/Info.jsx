@@ -10,7 +10,7 @@ const Info = () => {
   const [cliente, setCliente] = useState("");
 
   const clientePorId = (id) => {
-    fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/cliente/${id}`)
+    fetch(`https://backend-refri.vercel.app/api/cliente/${id}`)
       .then((res) => res.json())
       .then((data) => setCliente(data))
       .catch((err) => console.error(err));
@@ -19,7 +19,7 @@ const Info = () => {
   useEffect(() => {
     if (id) {
       // Intentamos obtener los datos de "reparacion"
-      fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/reparacion/${id}`)
+      fetch(`https://backend-refri.vercel.app/api/reparacion/${id}`)
         .then((res) => {
           if (!res.ok) {
             // Si no conseguimos los datos de "reparacion", lanzamos un error

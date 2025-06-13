@@ -5,7 +5,7 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 const CardProducto = ({ rep, onActualizarEstado }) => {
   
   const clientePorId = (id)=>{
-    fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/cliente/${id}`)
+    fetch(`https://backend-refri.vercel.app/api/cliente/${id}`)
     .then((res)=> res.json())
     .then((data)=>{
       let template = `

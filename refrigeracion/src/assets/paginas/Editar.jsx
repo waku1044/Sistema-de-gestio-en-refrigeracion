@@ -28,7 +28,7 @@ const Editar = () => {
     if (id) {
       // Intentamos obtener los datos de "reparacion"
       console.log(id);
-      fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/reparacion/${id}`)
+      fetch(`https://backend-refri.vercel.app/api/reparacion/${id}`)
         .then((res) => {
           if (!res.ok) {
             // Si no conseguimos los datos de "reparacion", lanzamos un error
@@ -46,7 +46,7 @@ const Editar = () => {
 
           // Si hubo un error en la búsqueda de "reparacion", intentamos con "instalacion"
           if (err.message === "No encontrado en reparacion") {
-            fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/instalacion/${id}`)
+            fetch(`https://backend-refri.vercel.app/api/instalacion/${id}`)
               .then((res) => {
                 if (!res.ok) {
                   throw new Error("No encontrado en instalacion");
@@ -97,7 +97,7 @@ const Editar = () => {
   
 
   const actualizarEquipo = (tipo,id)=>{
-    fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/${tipo}/${id}`, {
+    fetch(`https://backend-refri.vercel.app/api/${tipo}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
