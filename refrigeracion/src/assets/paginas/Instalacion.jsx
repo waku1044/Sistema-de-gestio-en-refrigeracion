@@ -11,7 +11,7 @@ const Instalacion = () => {
 
   // Función para obtener instalaciones de la API
   const fetchinstalaciones = () => {
-    fetch("http://localhost:5000/api/instalacion")
+    fetch("https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/instalacion")
       .then((res) => res.json())
       .then((data) => {
         Notify.success('Listado Actualizado')
@@ -49,7 +49,7 @@ const Instalacion = () => {
       };
     }
 
-    fetch(`http://localhost:5000/api/instalacion/${id}`, {
+    fetch(`https://backend-refri-gm5vy0kda-waku1044s-projects.vercel.app/api/instalacion/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(actualizado), 
