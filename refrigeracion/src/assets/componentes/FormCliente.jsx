@@ -44,11 +44,10 @@ const FormCliente = () => {
     fetch(`https://backend-refri.vercel.app/api/clientes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...formData
-      }),
+      body: JSON.stringify({formData})
     })
       .then((res) => {
+        console.log(res)
         if (!res.ok) throw new Error("Error al agregar cliente");
         return res.json();
       })
