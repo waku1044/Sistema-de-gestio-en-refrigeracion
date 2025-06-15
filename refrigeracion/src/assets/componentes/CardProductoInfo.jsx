@@ -1,5 +1,6 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import { Notify } from "notiflix/build/notiflix-notify-aio";
 
 const CardProductoInfo = ({ rep }) => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const CardProductoInfo = ({ rep }) => {
     const tipo = rep.tipo === "instalacion" ? "instalacion" : "reparacion";
   
     // Realizamos la solicitud DELETE
-    fetch(`https://backend-refri.vercel.app/api/${tipo}/${id}`, {
+    fetch(`https://backend-refri.vercel.app/api/eliminarequipo/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -25,9 +26,9 @@ const CardProductoInfo = ({ rep }) => {
         // Si la respuesta es exitosa, podemos proceder
         return res.json();
       })
-      .then(() => {
+      .then((data) => {
         // Si la eliminación fue exitosa, mostramos un mensaje
-        alert("Equipo eliminado correctamente");
+        Notify.success("Equipo eliminado correctamente", data);
         // Redirigimos al listado
         navigate(`/${tipo}`); // O a la ruta donde están los equipos listados
       })
