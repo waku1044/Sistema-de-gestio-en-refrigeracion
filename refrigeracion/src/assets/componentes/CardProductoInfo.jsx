@@ -15,7 +15,7 @@ const CardProductoInfo = ({ rep }) => {
     const tipo = rep.tipo === "instalacion" ? "instalacion" : "reparacion";
   
     // Realizamos la solicitud DELETE
-    fetch(`https://backend-refri.vercel.app/api/eliminarequipo/${id}`, {
+    fetch(`https://backend-refri.vercel.app/api/equipo/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
