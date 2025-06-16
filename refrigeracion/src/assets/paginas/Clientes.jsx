@@ -15,6 +15,7 @@ const Clientes = () => {
     fetch("https://backend-refri.vercel.app/api/clientes")
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         setClientes(data);
         setLoading(false); // Desactivar el indicador de carga
         Loading.remove(); // Eliminar el indicador

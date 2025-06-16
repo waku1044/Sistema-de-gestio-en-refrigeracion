@@ -82,7 +82,7 @@ const Info = () => {
           </div>
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <div>
-              <h2 className="text-2xl font-semibold text-gray-800  ">
+              <h2 className="text-2xl font-semibold text-gray-800 block sm:hidden  ">
                 Detalles del Cliente
               </h2>
               <p className="text-gray-700 capitalize ">
