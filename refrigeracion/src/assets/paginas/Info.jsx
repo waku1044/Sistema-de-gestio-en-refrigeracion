@@ -27,7 +27,10 @@ const Info = () => {
           }
           return res.json(); // Convertimos la respuesta en JSON si la solicitud es exitosa
         })
-        .then((data) => setEquipo(data)) // Si la petición es exitosa, actualizamos el estado
+        .then((data) => {
+          clientePorId(data.idCliente)
+          setEquipo(data)}) // Si la petición es exitosa, actualizamos el estado
+        
         .catch((err) => {
           console.log(err.message); // Logueamos el error
 
@@ -54,9 +57,9 @@ const Info = () => {
     }
   }, [id]); // Dependemos de "id" para volver a ejecutar la búsqueda si cambia
 
-  useEffect(() => {
-    clientePorId(equipo.idCliente);
-  }, []);
+  // useEffect(() => {
+  //   clientePorId(equipo.idCliente);
+  // }, []);
 
   // Si hay un error, mostramos un mensaje
   if (error) {
