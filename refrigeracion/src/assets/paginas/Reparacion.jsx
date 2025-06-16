@@ -25,7 +25,7 @@ const ListaReparaciones = () => {
       })
       .catch((err) => {
         Loading.remove();
-        Notify.failure("Ocurrio un error: ", err);
+        Notify.failure("Ocurrió un error: " + (err.message || err));;
       });
   };
 
