@@ -20,8 +20,8 @@ const ListaReparaciones = () => {
       .then((data) => {
         Notify.success("Listado Actualizado");
         
-        setReparaciones(data);
         Loading.remove();
+        return setReparaciones(data);
       })
       .catch((err) => {
         Loading.remove();
