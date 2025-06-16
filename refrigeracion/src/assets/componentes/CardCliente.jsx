@@ -5,20 +5,16 @@ import { Report } from 'notiflix/build/notiflix-report-aio';
 const CardCliente = ({props}) => {
   
   const cliente = props;
-  console.log(props._id)
-  const eliminarCliente = async (id) => {
-    try {
-      const response = await fetch(`https://backend-refri.vercel.app/api/cliente/${id}`, {
+  console.log(cliente._id)
+  const eliminarCliente =  (id) => {
+    
+       fetch(`https://backend-refri.vercel.app/api/cliente/${id}`, {
         method: 'DELETE'
-      });
-  
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.error("Error eliminando cliente:", error);
-      throw error; // para que el .catch externo funcione
-    }
+      })
+      .then((res)=>res.json())
+      .then((data)=>console.log(data))
+      .catch((err)=>console.log(err))
+      
   };
   
 

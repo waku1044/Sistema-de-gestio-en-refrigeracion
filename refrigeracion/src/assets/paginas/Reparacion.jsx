@@ -19,13 +19,13 @@ const ListaReparaciones = () => {
       .then((res) => res.json())
       .then((data) => {
         Notify.success("Listado Actualizado");
-        console.log(data);
+        
         setReparaciones(data);
         Loading.remove();
       })
       .catch((err) => {
         Loading.remove();
-        console.error("Ocurrio un error: ", err);
+        Notify.failure("Ocurrio un error: ", err);
       });
   };
 
@@ -35,7 +35,6 @@ const ListaReparaciones = () => {
   }, []);
 
   const onActualizarEstado = (id, nuevoEstado) => {
-    console.log('1_actualizacion');
     const repOriginal = reparaciones.find((r) => r._id === id); // ✅ obtenemos el objeto completo
     console.log(repOriginal)
     if (!repOriginal) return console.error("Reparación no encontrada");
@@ -43,14 +42,14 @@ const ListaReparaciones = () => {
     let actualizado = {};
 
     if (nuevoEstado === "Entregado") {
-      console.log('2_entro en entregado')
+      
       const fecha = new Date();
       const año = fecha.getFullYear();
       const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Suma 1 porque enero es 0
       const dia = String(fecha.getDate()).padStart(2, "0");
 
       const fechaFormateada = `${año}-${mes}-${dia}`;
-      console.log('3_actualiza fecha')
+      
       actualizado = {
         ...repOriginal,
         estado: nuevoEstado,
@@ -62,7 +61,7 @@ const ListaReparaciones = () => {
         estado: nuevoEstado,
       };
     }
-    console.log('4_actualizado', actualizado)
+    
     Loading.dots();
     fetch(`https://backend-refri.vercel.app/api/reparacion/${id}`, {
       method: "PUT",
@@ -81,7 +80,7 @@ const ListaReparaciones = () => {
       })
       .catch((err) => {
         Loading.remove();
-        console.error("Error actualizando estado:", err);
+        Notify.failure("Error actualizando estado:", err);
       });
   };
 

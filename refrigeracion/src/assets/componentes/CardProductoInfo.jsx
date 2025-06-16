@@ -20,22 +20,23 @@ const CardProductoInfo = ({ rep }) => {
     })
       .then((res) => {
         console.log(res)
-        // if (!res.ok) {
-        //   // Si la respuesta no es 2xx, lanzamos un error
-        //   throw new Error("Error al eliminar. Por favor, revisa la conexión o el backend.");
-        // }
+        if (!res.ok) {
+          // Si la respuesta no es 2xx, lanzamos un error
+          throw new Error("Error al eliminar. Por favor, revisa la conexión o el backend.");
+        }
         // Si la respuesta es exitosa, podemos proceder
         return res.json();
       })
       .then((data) => {
         // Si la eliminación fue exitosa, mostramos un mensaje
+        console.log(data)
         Notify.success("Equipo eliminado correctamente", data);
         // Redirigimos al listado
-        // navigate(`/${tipo}`); // O a la ruta donde están los equipos listados
+        navigate(`/${tipo}`); // O a la ruta donde están los equipos listados
       })
       .catch((err) => {
         // Si ocurrió un error, lo mostramos en consola
-        console.error(err);
+        Notify.failure(err);
         
       });
   };

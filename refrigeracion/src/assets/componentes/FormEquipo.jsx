@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 const FormEquipo = () => {
@@ -14,6 +15,8 @@ const FormEquipo = () => {
     descripcion: "",
     estado: "Pendiente",
   });
+
+  const navigate = useNavigate()
 
   const [errorData, setErrorData] = useState({}); // Estado para errores
   const { id } = useParams();
@@ -58,6 +61,9 @@ const FormEquipo = () => {
       })
       .then(() => {
         // if (onAdd) onAdd(); 
+        Notify.success("Se agrego equipo con Exito");
+        navigate(`/${formData.tipo}`)
+        setErrorData({}); // Limpiar los errores después del envío
         setFormData({
           equipo: "",
           marca: "",
@@ -68,8 +74,6 @@ const FormEquipo = () => {
           fechaEntrega: "",
           estado: "Pendiente",
         });
-        Notify.success("Se agrego equipo con Exito");
-        setErrorData({}); // Limpiar los errores después del envío
       })
       .catch((err) => console.error("Error al enviar:", err));
   };
