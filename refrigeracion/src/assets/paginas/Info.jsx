@@ -53,7 +53,10 @@ const Info = () => {
         });
     }
   }, [id]); // Dependemos de "id" para volver a ejecutar la búsqueda si cambia
-  clientePorId(equipo.idCliente);
+
+  useEffect(() => {
+    clientePorId(equipo.idCliente);
+  }, []);
 
   // Si hay un error, mostramos un mensaje
   if (error) {

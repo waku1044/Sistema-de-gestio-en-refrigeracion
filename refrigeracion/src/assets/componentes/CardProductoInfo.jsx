@@ -35,7 +35,7 @@ const CardProductoInfo = ({ rep }) => {
       .catch((err) => {
         // Si ocurrió un error, lo mostramos en consola
         console.error(err);
-        alert("Hubo un error al intentar eliminar el equipo.");
+        
       });
   };
   
