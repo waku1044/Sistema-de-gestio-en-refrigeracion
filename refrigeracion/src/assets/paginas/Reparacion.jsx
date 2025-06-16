@@ -23,10 +23,10 @@ const ListaReparaciones = () => {
         Loading.remove();
         return setReparaciones(data);
       })
-      .catch((err) => {
-        Loading.remove();
-        Notify.failure("Ocurrió un error: " + (err.message || err));;
-      });
+      // .catch((err) => {
+      //   Loading.remove();
+      //   Notify.failure("Ocurrió un error: " + (err.message || err));;
+      // });
   };
 
   useEffect(() => {
