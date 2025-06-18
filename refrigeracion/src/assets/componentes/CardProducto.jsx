@@ -1,30 +1,23 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Report } from 'notiflix/build/notiflix-report-aio';
+import { Report } from "notiflix/build/notiflix-report-aio";
+import { FaPlus, FaEye, FaEdit, FaTrash } from "react-icons/fa";
 
 const CardProducto = ({ rep, onActualizarEstado }) => {
-  
-  const clientePorId = (id)=>{
+  const clientePorId = (id) => {
     fetch(`https://backend-refri.vercel.app/api/cliente/${id}`)
-    .then((res)=> res.json())
-    .then((data)=>{
-      let template = `
+      .then((res) => res.json())
+      .then((data) => {
+        let template = `
       <strong>Domicilio:</strong> ${data.domicilio} <br/><br/>
-      <strong>Teléfono:</strong> ${data.telefono}`
-      Report.info(
-        `Cliente: ${data.cliente}`,
-        `${template}`
-        ,
-        'Visto',
-        );
-    })
-    .catch(err=>console.log(err))
-  }
-  
-  
-  
+      <strong>Teléfono:</strong> ${data.telefono}`;
+        Report.info(`Cliente: ${data.cliente}`, `${template}`, "Visto");
+      })
+      .catch((err) => console.log(err));
+  };
+
   const combinacionDeBotones = () => {
-    console.log(rep)
+    console.log(rep);
     switch (rep.estado) {
       case "Pendiente":
         return (
@@ -58,12 +51,12 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
 
       case "Entregado":
         return (
-          
           <Link
             className="bg-emerald-500 py-2 px-5 font-bold text-amber-50 rounded-2xl"
             to={`/info/${rep._id}`}
           >
-            Info
+            
+            Info Equipo
           </Link>
         );
 
@@ -121,9 +114,14 @@ const CardProducto = ({ rep, onActualizarEstado }) => {
           className="bg-cyan-500 py-2 px-5 text-amber-50 rounded-2xl"
           to={`/editar/${rep._id}`}
         >
-          Editar
+          <FaEdit />
         </Link>{" "}
-        <button className="bg-indigo-400 py-2 px-5 text-amber-50 rounded-2xl" onClick={()=>clientePorId(rep.idCliente)}>Info Cliente</button>
+        <button
+          className="bg-indigo-400 py-2 px-5 text-amber-50 rounded-2xl"
+          onClick={() => clientePorId(rep.idCliente)}
+        >
+          Info Cliente
+        </button>
       </div>
     </div>
   );
