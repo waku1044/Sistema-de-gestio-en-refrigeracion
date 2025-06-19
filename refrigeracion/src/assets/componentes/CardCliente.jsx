@@ -37,7 +37,7 @@ const CardCliente = ({ props }) => {
         })
           .then((data) => {
             console.log('esta es la data: ',data)
-            if (data.success) {
+            if (data.message === 'Cliente eliminado.') {
              Report.success('Cliente eliminado', 'El cliente ha sido eliminado correctamente');
              actualizarClientes()
               // Redirige a la lista de clientes
