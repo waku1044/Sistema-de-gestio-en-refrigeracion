@@ -5,7 +5,8 @@ import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { Confirm } from "notiflix";
 
 const CardCliente = ({ props }) => {
-  const cliente = props;
+  const cliente = props.cliente;
+  const actualizarCliente = props.actualizarCliente();
   const navigate = useNavigate(); // Usamos useNavigate para la navegación
   const [trabajos, setTrabajos ] = useState('');
   const id = cliente._id;
@@ -39,7 +40,7 @@ const CardCliente = ({ props }) => {
             console.log('esta es la data: ',data)
             if (data.message === 'Cliente eliminado.') {
              Report.success('Cliente eliminado', 'El cliente ha sido eliminado correctamente');
-             cliente.actualizarClientes()
+             actualizarCliente()
               // Redirige a la lista de clientes
               return navigate('/clientes'); // Usamos navigate para redirigir
             } else {

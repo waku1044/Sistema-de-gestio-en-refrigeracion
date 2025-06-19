@@ -33,7 +33,7 @@ const Clientes = () => {
     listaClientes();
   }, []);
   
-  function actualizarClientes (){
+  function actualizarClientes(){
     listaClientes();
   }
   return (
@@ -59,7 +59,7 @@ const Clientes = () => {
           ) : clientes.length > 0 ? (
             clientes.map((cliente) => (
               <CardCliente 
-                props={cliente} 
+                cliente={cliente} 
                 key={cliente.id} 
                 actualizarClientes={actualizarClientes}
               />
