@@ -8,8 +8,8 @@ const CardCliente = ({ props }) => {
   const cliente = props;
   const navigate = useNavigate(); // Usamos useNavigate para la navegación
   const [trabajos, setTrabajos ] = useState('');
-
-  const eliminarCliente = (id) => {
+  const id = cliente._id;
+  const eliminarCliente = () => {
     console.log("ID a eliminar:", id);  // Verifica que este ID sea el correcto
     // Confirmación de eliminación con Notiflix
     Confirm.show(
@@ -19,11 +19,12 @@ const CardCliente = ({ props }) => {
       'No',
       () => {
         // Acción si el usuario confirma 
+        
         fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`, {
           method: "DELETE",
         })
         .then((res) => {
-          console.log(res);
+          console.log('seccion 1: ',res);
           if (!res.ok) {
             // Si la respuesta no es 2xx, lanzamos un error
             throw new Error(
@@ -79,7 +80,7 @@ const CardCliente = ({ props }) => {
         </Link>{" "}
         <button
           className="bg-red-500 py-2 px-5 text-amber-50 rounded-2xl"
-          onClick={() => eliminarCliente(cliente._id)}
+          onClick={eliminarCliente}
         >
           <FaTrash className="" />
         </button>
