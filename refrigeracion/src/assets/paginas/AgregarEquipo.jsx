@@ -14,7 +14,7 @@ const agregarEquipo = () => {
   const { id } = useParams();
   
   const clientePorId = (id)=>{
-    fetch(`https://backend-refri.vercel.app/api/cliente/${id}`)
+    fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`)
     .then(res=>res.json())
     .then(data=>setCliente(data))
     .catch(err=>console.error(err))
