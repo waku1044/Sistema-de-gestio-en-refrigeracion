@@ -37,13 +37,13 @@ const CardCliente = ({ props }) => {
           .then((data) => {
             console.log('esta es la data: ',data)
             return 
-            // if (data.success) {
-            //  Report.success('Cliente eliminado', 'El cliente ha sido eliminado correctamente');
-            //   // Redirige a la lista de clientes
-            //   return navigate('/clientes'); // Usamos navigate para redirigir
-            // } else {
-            //  return  Report.failure('Error', 'Hubo un problema al eliminar el cliente!');
-            // }
+            if (data.success) {
+             Report.success('Cliente eliminado', 'El cliente ha sido eliminado correctamente');
+              // Redirige a la lista de clientes
+              return navigate('/clientes'); // Usamos navigate para redirigir
+            } else {
+             return  Report.failure('Error', 'Hubo un problema al eliminar el cliente!');
+            }
           })
           .catch((err) => {
             console.log(err);
