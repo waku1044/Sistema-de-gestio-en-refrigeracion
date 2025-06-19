@@ -4,9 +4,9 @@ import { Report } from "notiflix/build/notiflix-report-aio"; // Asegúrate de te
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { Confirm } from "notiflix";
 
-const CardCliente = ({ props }) => {
-  const cliente = props.cliente;
-  const actualizarCliente = props.actualizarCliente();
+const CardCliente = ({ cliente, actualizarClientes}) => {
+  // const cliente = props.cliente;
+  // const actualizarCliente = props.actualizarCliente();
   const navigate = useNavigate(); // Usamos useNavigate para la navegación
   const [trabajos, setTrabajos ] = useState('');
   const id = cliente._id;
