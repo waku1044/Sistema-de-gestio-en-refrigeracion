@@ -9,6 +9,7 @@ import "../css/login.css";
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [actualizar, setActualizar ] = useState(false);
 
   const listaClientes = () => {
     Loading.standard(); // Mostrar el indicador de carga
@@ -27,10 +28,14 @@ const Clientes = () => {
       });
   };
 
+  
   useEffect(() => {
     listaClientes();
   }, []);
-
+  
+  function actualizarClientes (){
+    listaClientes();
+  }
   return (
     <>
       <NavBar activo={true} tipo="info" />
@@ -56,6 +61,7 @@ const Clientes = () => {
               <CardCliente 
                 props={cliente} 
                 key={cliente.id} 
+                actualizarClientes={actualizarClientes}
               />
             ))
           ) : (

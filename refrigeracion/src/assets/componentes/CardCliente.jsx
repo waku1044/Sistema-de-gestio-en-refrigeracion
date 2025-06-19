@@ -9,6 +9,7 @@ const CardCliente = ({ props }) => {
   const navigate = useNavigate(); // Usamos useNavigate para la navegación
   const [trabajos, setTrabajos ] = useState('');
   const id = cliente._id;
+  
   const eliminarCliente = () => {
     console.log("ID a eliminar:", id);  // Verifica que este ID sea el correcto
     // Confirmación de eliminación con Notiflix
@@ -36,9 +37,9 @@ const CardCliente = ({ props }) => {
         })
           .then((data) => {
             console.log('esta es la data: ',data)
-            return 
             if (data.success) {
              Report.success('Cliente eliminado', 'El cliente ha sido eliminado correctamente');
+             actualizarClientes()
               // Redirige a la lista de clientes
               return navigate('/clientes'); // Usamos navigate para redirigir
             } else {
