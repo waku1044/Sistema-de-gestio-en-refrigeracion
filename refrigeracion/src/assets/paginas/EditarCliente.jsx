@@ -11,16 +11,11 @@ const EditarCliente = () => {
   const navigate = useNavigate();
   
   // const [cliente, setCliente] = useState('');
-
-
-  
-  
-  
   
   useEffect(() => {
       if(id) {
           const clientePorId =(id)=>{
-            fetch(`https://backend-refri.vercel.app/api/cliente/${id}`)
+            fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`)
             .then(res=>res.json())
             .then(data=>setCliente(data))
             .catch(err=>console.error(err))
@@ -51,7 +46,7 @@ const EditarCliente = () => {
   
 
   const actualizarCliente = (id)=>{
-    fetch(`https://backend-refri.vercel.app/api/cliente/${id}`, {
+    fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

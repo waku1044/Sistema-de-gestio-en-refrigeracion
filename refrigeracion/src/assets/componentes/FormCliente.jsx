@@ -38,7 +38,7 @@ const FormCliente = () => {
     }
 
     // Enviar datos al servidor
-    fetch("https://backend-refri.vercel.app/api/clientes", {
+    fetch("https://backend-refri.vercel.app/api/clientes/clientes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

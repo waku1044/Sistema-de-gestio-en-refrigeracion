@@ -15,7 +15,7 @@ const ListaReparaciones = () => {
   const fetchReparaciones = () => {
     Loading.dots();
 
-    fetch("https://backend-refri.vercel.app/api/reparacion")
+    fetch("https://backend-refri.vercel.app/api/equipos/reparacion")
       .then((res) => res.json())
       .then((data) => {
         Notify.success("Listado Actualizado");
@@ -63,7 +63,7 @@ const ListaReparaciones = () => {
     }
     
     Loading.dots();
-    fetch(`https://backend-refri.vercel.app/api/reparacion/${id}`, {
+    fetch(`https://backend-refri.vercel.app/api/equipos/reparacion/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(actualizado), // ✅ enviamos el objeto completo

@@ -19,7 +19,7 @@ const CardCliente = ({ props }) => {
       'No',
       () => {
         // Acción si el usuario confirma 
-        fetch(`https://backend-refri.vercel.app/api/cliente/${id}`, {
+        fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -30,7 +30,7 @@ const CardCliente = ({ props }) => {
               // Redirige a la lista de clientes
               return navigate('/clientes'); // Usamos navigate para redirigir
             } else {
-             return  Report.failure('Error', 'Hubo un problema al eliminar el cliente!!!!!!!!');
+             return  Report.failure('Error', 'Hubo un problema al eliminar el cliente!');
             }
           })
           .catch((err) => {

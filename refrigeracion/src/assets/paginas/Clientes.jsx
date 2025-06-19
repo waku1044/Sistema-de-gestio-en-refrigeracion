@@ -12,7 +12,7 @@ const Clientes = () => {
 
   const listaClientes = () => {
     Loading.standard(); // Mostrar el indicador de carga
-    fetch("https://backend-refri.vercel.app/api/clientes")
+    fetch("https://backend-refri.vercel.app/api/clientes/clientes")
       .then((res) => res.json())
       .then((data) => {
         console.log(data)

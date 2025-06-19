@@ -50,7 +50,7 @@ const FormEquipo = () => {
     }
     console.log(formData)
     // Enviar el formulario si no hay errores
-    fetch(`https://backend-refri.vercel.app/api/agregarequipo`, {
+    fetch(`https://backend-refri.vercel.app/api/equipos/agregarequipo`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
