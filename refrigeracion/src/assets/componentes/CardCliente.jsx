@@ -39,7 +39,7 @@ const CardCliente = ({ props }) => {
             console.log('esta es la data: ',data)
             if (data.message === 'Cliente eliminado.') {
              Report.success('Cliente eliminado', 'El cliente ha sido eliminado correctamente');
-             actualizarClientes()
+             cliente.actualizarClientes()
               // Redirige a la lista de clientes
               return navigate('/clientes'); // Usamos navigate para redirigir
             } else {
