@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     Loading.dots(); // Muestra el loading
 
-    fetch("https://backend-refri.vercel.app/api", {
+    fetch("https://backend-refri.vercel.app/api/admin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
