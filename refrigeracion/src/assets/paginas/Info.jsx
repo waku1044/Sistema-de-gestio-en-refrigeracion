@@ -11,7 +11,7 @@ const Info = () => {
 
   const clientePorId = (id) => {
     fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`,{
-      Authorization: localStorage.getItem('token')
+      "Authorization": `Bearer ${localStorage.getItem('token')}`
     })
       .then((res) => res.json())
       .then((data) => setCliente(data))
@@ -22,7 +22,7 @@ const Info = () => {
     if (id) {
       // Intentamos obtener los datos de "reparacion"
       fetch(`https://backend-refri.vercel.app/api/equipos/reparacion/${id}`,{
-        Authorization: localStorage.getItem('token')
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       })
         .then((res) => {
           if (!res.ok) {

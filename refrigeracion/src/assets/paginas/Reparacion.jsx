@@ -17,7 +17,7 @@ const ListaReparaciones = () => {
 
     fetch("https://backend-refri.vercel.app/api/equipos/reparacion",{
       headers: {
-        Authorization: localStorage.getItem('token')
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       } 
     })
       .then((res) => res.json())

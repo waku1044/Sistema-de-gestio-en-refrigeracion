@@ -21,7 +21,7 @@ const Buscador = () => {
       // Buscar por Domicilio
       // Buscar primero en reparación
       fetch(`https://backend-refri.vercel.app/api/clientes/clientes/`,{
-        Authorization: localStorage.getItem('token')
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       })
         .then((res) => {
           if (!res.ok) throw new Error("No encontrado en reparación");
@@ -43,7 +43,7 @@ const Buscador = () => {
         .catch(() => {
           // Si no está en reparación, buscar en instalación
           fetch(`https://backend-refri.vercel.app/api/clientes/clientes/`,{
-            Authorization: localStorage.getItem('token')
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
           })
             .then((res) => {
               if (!res.ok) throw new Error("No encontrado en instalación");
@@ -70,7 +70,7 @@ const Buscador = () => {
     } else {
       // Buscar por Teléfono
       fetch(`https://backend-refri.vercel.app/api/clientes/clientes`,{
-        Authorization: localStorage.getItem('token')
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       })
         .then((res) => {
           if (!res.ok) throw new Error("No encontrado en reparación");
@@ -95,7 +95,7 @@ const Buscador = () => {
         .catch(() => {
           // Si no está en reparación, buscar en instalación
           fetch(`https://backend-refri.vercel.app/api/clientes/clientes`,{
-            Authorization: localStorage.getItem('token')
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
           })
             .then((res) => {
               if (!res.ok) throw new Error("No encontrado en instalación");
