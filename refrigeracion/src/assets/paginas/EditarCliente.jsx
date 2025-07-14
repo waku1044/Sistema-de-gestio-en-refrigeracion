@@ -15,7 +15,9 @@ const EditarCliente = () => {
   useEffect(() => {
       if(id) {
           const clientePorId =(id)=>{
-            fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`)
+            fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`,{
+              Authorization: localStorage.getItem('token')
+            })
             .then(res=>res.json())
             .then(data=>setCliente(data))
             .catch(err=>console.error(err))
@@ -50,6 +52,7 @@ const EditarCliente = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem('token')
       },
       body: JSON.stringify(cliente), // Asegúrate de que "equipo" contenga los datos correctos
     })

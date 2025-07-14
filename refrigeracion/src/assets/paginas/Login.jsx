@@ -30,6 +30,7 @@ const Login = () => {
 
         // Verificar si la respuesta fue exitosa
         if (!res.ok) {
+          
           throw new Error("Error en la solicitud: " + res.statusText);
         }
 
@@ -38,6 +39,7 @@ const Login = () => {
       .then((data) => {
         // Remover el loading al obtener la respuesta
         Notify.success(data.message);
+        
         setTimeout(() => {
           navigate("/principal");
         }, 2000); // Verifica la respuesta JSON

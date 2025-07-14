@@ -15,9 +15,14 @@ const ListaReparaciones = () => {
   const fetchReparaciones = () => {
     
 
-    fetch("https://backend-refri.vercel.app/api/equipos/reparacion")
+    fetch("https://backend-refri.vercel.app/api/equipos/reparacion",{
+      headers: {
+        Authorization: localStorage.getItem('token')
+      } 
+    })
       .then((res) => res.json())
       .then((data) => {
+        console.log(localStorage.getItem('token'))
         Notify.success("Listado Actualizado");
         return setReparaciones(data);
       })

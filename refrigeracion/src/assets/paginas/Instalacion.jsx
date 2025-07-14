@@ -11,7 +11,9 @@ const Instalacion = () => {
 
   // Función para obtener instalaciones de la API
   const fetchinstalaciones = () => {
-    fetch("https://backend-refri.vercel.app/api/equipos/instalacion")
+    fetch("https://backend-refri.vercel.app/api/equipos/instalacion",{
+      Authorization: localStorage.getItem('token')
+    })
       .then((res) => res.json())
       .then((data) => {
         Notify.success('Listado Actualizado')
@@ -51,7 +53,8 @@ const Instalacion = () => {
 
     fetch(`https://backend-refri.vercel.app/api/equipos/instalacion/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+      Authorization: localStorage.getItem('token') },
       body: JSON.stringify(actualizado), 
     })
       .then((res) => {
