@@ -13,23 +13,21 @@ const ListaReparaciones = () => {
   // Función para obtener los reparaciones de la API
 
   const fetchReparaciones = () => {
-    
-
-    fetch("https://backend-refri.vercel.app/api/equipos/reparacion",{
+    fetch("https://backend-refri.vercel.app/api/equipos/reparacion", {
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
-      } 
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(localStorage.getItem('token'))
+        console.log(localStorage.getItem("token"));
         Notify.success("Listado Actualizado");
         return setReparaciones(data);
-      })
-      // .catch((err) => {
-      //   Loading.remove();
-      //   Notify.failure("Ocurrió un error: " + (err.message || err));;
-      // });
+      });
+    // .catch((err) => {
+    //   Loading.remove();
+    //   Notify.failure("Ocurrió un error: " + (err.message || err));;
+    // });
   };
 
   useEffect(() => {
@@ -39,20 +37,19 @@ const ListaReparaciones = () => {
 
   const onActualizarEstado = (id, nuevoEstado) => {
     const repOriginal = reparaciones.find((r) => r._id === id); // ✅ obtenemos el objeto completo
-    console.log(repOriginal)
+    console.log(repOriginal);
     if (!repOriginal) return console.error("Reparación no encontrada");
 
     let actualizado = {};
 
     if (nuevoEstado === "Entregado") {
-      
       const fecha = new Date();
       const año = fecha.getFullYear();
       const mes = String(fecha.getMonth() + 1).padStart(2, "0"); // Suma 1 porque enero es 0
       const dia = String(fecha.getDate()).padStart(2, "0");
 
       const fechaFormateada = `${año}-${mes}-${dia}`;
-      
+
       actualizado = {
         ...repOriginal,
         estado: nuevoEstado,
@@ -64,10 +61,13 @@ const ListaReparaciones = () => {
         estado: nuevoEstado,
       };
     }
-    
+
     fetch(`https://backend-refri.vercel.app/api/equipos/reparacion/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify(actualizado), // ✅ enviamos el objeto completo
     })
       .then((res) => {

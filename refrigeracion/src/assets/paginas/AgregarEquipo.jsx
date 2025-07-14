@@ -15,7 +15,9 @@ const agregarEquipo = () => {
   
   const clientePorId = (id)=>{
     fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`,{
-      "Authorization": `Bearer ${localStorage.getItem('token')}`
+      headers:{
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      }
     })
     .then(res=>res.json())
     .then(data=>setCliente(data))

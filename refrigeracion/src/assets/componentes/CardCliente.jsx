@@ -24,7 +24,9 @@ const CardCliente = ({ cliente, actualizarClientes}) => {
         
         fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`, {
           method: "DELETE",
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
+          headers:{
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+          }
         })
         .then((res) => {
           console.log('seccion 1: ',res);

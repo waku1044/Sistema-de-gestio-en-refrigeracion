@@ -18,7 +18,9 @@ const CardProductoInfo = ({ rep }) => {
     // Realizamos la solicitud DELETE
     fetch(`https://backend-refri.vercel.app/api/equipos/equipo/${id}`, {
       method: "DELETE",
-      "Authorization": `Bearer ${localStorage.getItem('token')}`
+      headers:{
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      }
     })
       .then((res) => {
         console.log(res);

@@ -29,7 +29,9 @@ const Editar = () => {
       // Intentamos obtener los datos de "reparacion"
       console.log(id);
       fetch(`https://backend-refri.vercel.app/api/equipos/reparacion/${id}`,{
-        "Authorization": `Bearer ${localStorage.getItem('token')}`
+        headers:{
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
+        }
       })
         .then((res) => {
           if (!res.ok) {
@@ -49,7 +51,9 @@ const Editar = () => {
           // Si hubo un error en la búsqueda de "reparacion", intentamos con "instalacion"
           if (err.message === "No encontrado en reparacion") {
             fetch(`https://backend-refri.vercel.app/api/equipos/instalacion/${id}`,{
-              "Authorization": `Bearer ${localStorage.getItem('token')}`
+              headers:{
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+              }
             })
               .then((res) => {
                 if (!res.ok) {

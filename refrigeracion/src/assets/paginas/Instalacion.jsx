@@ -12,7 +12,9 @@ const Instalacion = () => {
   // Función para obtener instalaciones de la API
   const fetchinstalaciones = () => {
     fetch("https://backend-refri.vercel.app/api/equipos/instalacion",{
-      "Authorization": `Bearer ${localStorage.getItem('token')}`
+      headers:{
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
+      }
     })
       .then((res) => res.json())
       .then((data) => {
@@ -53,8 +55,10 @@ const Instalacion = () => {
 
     fetch(`https://backend-refri.vercel.app/api/equipos/instalacion/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem('token')}` },
+      headers: { 
+        "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('token')}`
+     },
       body: JSON.stringify(actualizado), 
     })
       .then((res) => {
