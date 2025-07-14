@@ -39,7 +39,7 @@ const Login = () => {
       .then((data) => {
         // Remover el loading al obtener la respuesta
         Notify.success(data.message);
-        
+        localStorage.setItem('token',data.token)
         setTimeout(() => {
           navigate("/principal");
         }, 2000); // Verifica la respuesta JSON
