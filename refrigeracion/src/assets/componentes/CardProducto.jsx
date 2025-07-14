@@ -5,7 +5,9 @@ import { FaPlus, FaEye, FaEdit, FaTrash } from "react-icons/fa";
 
 const CardProducto = ({ rep, onActualizarEstado }) => {
   const clientePorId = (id) => {
-    fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`)
+    fetch(`https://backend-refri.vercel.app/api/clientes/cliente/${id}`,{
+      "Authorization": `Bearer ${localStorage.getItem('token')}`
+    })
       .then((res) => res.json())
       .then((data) => {
         let template = `

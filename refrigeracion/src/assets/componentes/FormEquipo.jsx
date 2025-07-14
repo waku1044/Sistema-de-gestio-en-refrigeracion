@@ -52,7 +52,9 @@ const FormEquipo = () => {
     // Enviar el formulario si no hay errores
     fetch(`https://backend-refri.vercel.app/api/equipos/agregarequipo`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('token')}`
+    },
       body: JSON.stringify(formData)
     })
       .then((res) => {
