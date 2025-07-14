@@ -1,26 +1,25 @@
 import { useState } from "react";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
 
 const FormEquipo = () => {
   const [formData, setFormData] = useState({
-    idCliente:'',
+    idCliente: "",
     equipo: "",
     marca: "",
     falla: "",
-    tipo:'reparacion',
+    tipo: "reparacion",
     fecha: "",
     descripcion: "",
     estado: "Pendiente",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [errorData, setErrorData] = useState({}); // Estado para errores
   const { id } = useParams();
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -28,14 +27,14 @@ const FormEquipo = () => {
     if (value) {
       setErrorData((prev) => ({ ...prev, [name]: "" }));
     }
-    
+
     setFormData((prev) => ({ ...prev, [name]: value }));
     // setFormData(...formData,{[name]:value})
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormData((prev)=>({...prev,idCliente:id}))
+    setFormData((prev) => ({ ...prev, idCliente: id }));
     // Validación de los campos
     const errors = {};
     Object.keys(formData).forEach((key) => {
@@ -43,35 +42,36 @@ const FormEquipo = () => {
         errors[key] = "Debe completar el campo.";
       }
     });
-    console.log(errors)
+    console.log(errors);
     if (Object.keys(errors).length > 0) {
       setErrorData(errors); // Establecer los errores en el estado
       return;
     }
-    console.log(formData)
+    console.log(formData);
     // Enviar el formulario si no hay errores
     fetch(`https://backend-refri.vercel.app/api/equipos/agregarequipo`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem('token')}`
-    },
-      body: JSON.stringify(formData)
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(formData),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Error al agregar reparación");
         return res.json();
       })
       .then(() => {
-        // if (onAdd) onAdd(); 
+        // if (onAdd) onAdd();
         Notify.success("Se agrego equipo con Exito");
-        navigate(`/${formData.tipo}`)
+        navigate(`/${formData.tipo}`);
         setErrorData({}); // Limpiar los errores después del envío
         setFormData({
           equipo: "",
           marca: "",
           falla: "",
           fecha: "",
-          tipo:'',
+          tipo: "",
           descripcion: "",
           fechaEntrega: "",
           estado: "Pendiente",
@@ -86,16 +86,21 @@ const FormEquipo = () => {
       className="max-w-4xl mx-auto  bg-cyan-100 p-8 rounded-xl shadow space-y-6"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        <label htmlFor="tipo" className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200">Selecciona el servicio:</label>
-        <select 
-        id="tipo" 
-        name="tipo" 
-        value={formData.tipo}
-        onChange={handleChange}
-        className="bg-red-300 text-emerald-950">
-          <option value="reparacion" >Reparación</option>
-          <option value="instalacion" >Instalación</option>
+        <label
+          htmlFor="tipo"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-amber-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition duration-200"
+        >
+          Selecciona el servicio:
+        </label>
+        <select
+          id="tipo"
+          name="tipo"
+          value={formData.tipo}
+          onChange={handleChange}
+          className="bg-red-300 text-emerald-950"
+        >
+          <option value="reparacion">Reparación</option>
+          <option value="instalacion">Instalación</option>
         </select>
 
         <div className="relative my-3">
