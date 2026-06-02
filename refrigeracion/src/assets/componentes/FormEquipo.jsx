@@ -101,6 +101,7 @@ const FormEquipo = () => {
         >
           <option value="reparacion">Reparación</option>
           <option value="instalacion">Instalación</option>
+          <option value="presupuesto">Presupuesto</option>
         </select>
 
         <div className="relative my-3">
